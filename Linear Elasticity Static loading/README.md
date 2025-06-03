@@ -9,5 +9,5 @@ Code execution order:
 3. FE_DeepONet_static_coupling.py is the framework which couples the FE and DeepONet to solve the linear elasticity under static loading.  
    The results are saved in folder: FE_DeepONet_static_coupling_results.
      
-   Note: The prerequisite for running this code is that **DeepONet_static.pkl** already exists in directory Pretrained_DeepONet_static.
+   Note: The prerequisite for running **FE_DeepONet_static_coupling.py** is that **DeepONet_static.pkl** already exists in directory Pretrained_DeepONet_static.
    
