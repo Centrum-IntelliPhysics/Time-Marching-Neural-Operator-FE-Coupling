@@ -10,5 +10,5 @@ Code execution order:
    The results are saved in folder: FE_DeepONet_static_coupling_results.
      
    Note: The prerequisite for running this code is that **DeepONet_static.pkl** already exists in directory Pretrained_DeepONet_static
-   and the corresponding data in directory static_data_ground_truth.
+   and the corresponding data exists in directory static_data_ground_truth.
    
