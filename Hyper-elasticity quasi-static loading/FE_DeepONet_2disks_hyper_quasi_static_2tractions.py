@@ -63,13 +63,17 @@ radius1 = 0.3 - 0.05
 num_points = 200      # Number of points on the circumference #so important !!!0 
 num_points1 = 200  
 
+
+#========================================================
+# Use FEM to solve the outer region for hyper-elasticity
+#========================================================
+
 #region FEM 
 #### FEM  
 import dolfinx 
 # 导入 Gmsh 生成的 .msh 文件 
 mesh1, cell_markers, facet_markers  = gmshio.read_from_msh("3_point_bending_inner1.msh", MPI.COMM_WORLD) 
 V = functionspace(mesh1, ("CG", 1, (mesh1.geometry.dim, ))) ###without  (mesh1.geometry.dim, ), it is a scalar space not a vector space 
-
 
 ### materials parameters 
 E = 0.210e-2
@@ -83,34 +87,32 @@ def epsilon(u):
 def sigma(u):
     return lambda_ * ufl.nabla_div(u) * ufl.Identity(len(u)) + 2 * mu * epsilon(u)
 
-
-
 mu = E/(2 * (1 + nu))
 lambda_ = E*nu/((1 + nu)*(1 - 2*nu))
-# 找到边界面
+
+
+# find the boundaries and set the boundary conditions
 tdim = mesh1.topology.dim
 fdim = tdim - 1
 domain = mesh1
-
-
 # region Location BC
 def bt(x):
     return np.isclose(x[1], -0.5)
 
 def left(x):
     return np.isclose(x[0], -1.)
-# Sub domain for rotation at top
+
 def top(x):
     return np.isclose(x[1], 1.5) 
 
 def right(x):
     return np.isclose(x[0], 1.)
 
-
-upper_point = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.isclose(x[1], -0.5))
+# the fixed boundaries for bottom edge and left edge 
+bottom_point = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.isclose(x[1], -0.5))
 uD = np.array([0, 0, 0], dtype=default_scalar_type)
 domain.topology.create_connectivity(fdim, tdim)
-boundary_dofs = fem.locate_dofs_topological(V, fdim, upper_point)
+boundary_dofs = fem.locate_dofs_topological(V, fdim, bottom_point)
 bc_bt = fem.dirichletbc(uD, boundary_dofs, V)
 
 left_points = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.isclose(x[0], -1.))
@@ -119,10 +121,9 @@ domain.topology.create_connectivity(fdim, tdim)
 boundary_dofs = fem.locate_dofs_topological(V, fdim, left_points)
 bc_l = fem.dirichletbc(uD, boundary_dofs, V)
 
-circle = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-3, 1e-3))
-#circle_1 = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.full(x.shape[1], True ))
-#circle_rec = dolfinx.mesh.locate_entities_boundary(domain, fdim, lambda x: np.isclose(x[0],-1.5) | np.isclose(x[0],2.5) | np.isclose(x[1], -0.5) | np.isclose(x[1], 1.5) )
 
+# the functions to find the outer cricle and inner circle for overlapping boundaries
+# input: [2, n] --> [2, m] m points on the circular boundaries 
 def on_cricle(x):
     xc = x[0][np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-4, 1e-4))]
     yc = x[1][np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-4, 1e-4))]
