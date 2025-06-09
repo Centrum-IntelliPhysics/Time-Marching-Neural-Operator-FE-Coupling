@@ -441,7 +441,7 @@ np.savetxt('yc1_in.txt', y_c1_in)
 # region DeepONet 
 #=========================================================
 # Pretrained DeepONet model is used to predict the displacement
-# for the inner region
+# for the inner region receiving the boundary displacement from FEM
 #=========================================================
 
 

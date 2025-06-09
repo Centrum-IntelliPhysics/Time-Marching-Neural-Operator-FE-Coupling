@@ -71,10 +71,11 @@ num_points1 = 200
 #region FEM 
 #### FEM  
 import dolfinx 
-# 导入 Gmsh 生成的 .msh 文件 
+# load the gmsh file
+os.chdir('Hyper_elastic_Gmsh')
 mesh1, cell_markers, facet_markers  = gmshio.read_from_msh("3_point_bending_inner1.msh", MPI.COMM_WORLD) 
 V = functionspace(mesh1, ("CG", 1, (mesh1.geometry.dim, ))) ###without  (mesh1.geometry.dim, ), it is a scalar space not a vector space 
-
+os.chdir(originalDir_real)
 ### materials parameters 
 E = 0.210e-2
 nu = 0.3 
@@ -134,7 +135,10 @@ def on_cricle_inner(x):
     yc = x[1][np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius1**2, 1e-4, 1e-4))]
     return xc, yc 
 
-
+# region Mypression
+#=====================================================================
+# MyExpression is used to interpolate the displacement at the boundary
+#=====================================================================
 # region Mypression
 class MyExpression:
     def __init__(self, x0, y0, value, V_dim):
@@ -190,45 +194,32 @@ class MyExpression_inner_hole:
         return values 
 
 
-    
+# define the variational problem in FEM     
 B = fem.Constant(domain, default_scalar_type((0, 0, 0)))
 T = fem.Constant(domain, default_scalar_type((0, 0, 0))) ## later T.value[2] refer to this value 
-
 v = ufl.TestFunction(V)
 uh = fem.Function(V)
-
 # Spatial dimension
 d = len(uh)
-
 # Identity tensor
 I = ufl.variable(ufl.Identity(d))
-
 # Deformation gradient
 F_grad = ufl.variable(I + ufl.grad(uh))
-
 # Right Cauchy-Green tensor
 C = ufl.variable(F_grad.T * F_grad)
-
 # Invariants of deformation tensors
 Ic = ufl.variable(ufl.tr(C))
 J = ufl.variable(ufl.det(F_grad))
-
 # Elasticity parameters
 mu = E / (2 * (1 + nu))
 lmbda = E * nu / ((1 + nu) * (1 - 2 * nu))
 # Stored strain energy density (compressible neo-Hookean model)
 psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
-# Stress
-# Hyper-elasticity
+# Stress (first Piola–Kirchhoff stress tensor)
 P = ufl.diff(psi, F_grad)
-
 # Define form F (we want to find u such that F(u) = 0)
 F = ufl.inner(ufl.grad(v), P) * dx
 ### ds will be redefined later
-
-
-### define the inner boundary for handshake # the new defined ds 
-boundaries = [(1, lambda x: np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-3, 1e-3))]
 
 # out hole boundary
 u_geometry = mesh1.geometry.x
@@ -263,9 +254,13 @@ np.savetxt('yc1_out.txt', y_c1_out)
 np.savetxt('xc1_in.txt', x_c1_in)
 np.savetxt('yc1_in.txt', y_c1_in)
 
-# region DeepONet 
-from Prepare_DeepONet_hyper_ealstic_quasi_static import PI_DeepONet
 
+# region DeepONet 
+#=========================================================
+# Pretrained DeepONet model is used to predict the displacement
+# for the inner region receiving the boundary displacement from FEM
+#=========================================================
+from Prepare_DeepONet_hyper_ealstic_quasi_static import PI_DeepONet
 
 m = num_points1 
 d = 2 # dimension of the input data

@@ -728,7 +728,7 @@ if __name__ == "__main__":
     originalDir ='/nfsv4/21040463r/FEM_DeepONet_final_results/FEM_DeepONet_hyper/'
     os.chdir(os.path.join(originalDir))
 
-    foldername = 'prepare_DeepONet_static_hyper_elastic_200w_adam_lr_RBF_E_01_2tractions_figure_manu_lv_lu_1'  
+    foldername = 'Pretrained_DeepONet_hyper_elastic_quasi_static'  
     createFolder(foldername)
     os.chdir(os.path.join(originalDir, './'+ foldername + '/'))
     
@@ -765,7 +765,7 @@ if __name__ == "__main__":
         params = pickle.load(f)'''
 
     params = model.get_params(model.opt_state)
-    with open('DeepONet_DR.pkl', 'wb') as f:
+    with open('DeepONet_hyper_elastic_quasi_static.pkl', 'wb') as f:
         pickle.dump(params, f)
 
 
@@ -782,10 +782,6 @@ if __name__ == "__main__":
     import numpy as npr # jnp donesn't have loadtxt
     x_c = np.array(npr.loadtxt('xc1_out.txt')).reshape(1,-1)
     y_c = np.array(npr.loadtxt('yc1_out.txt')).reshape(1,-1)
-    #u2c = np.array(npr.loadtxt('u2c_out ts=4 iter=99')).reshape(1,-1)
-    #v2c= np.array(npr.loadtxt('v2c_out ts=4 iter=99')).reshape(1,-1)
-    #u2 = np.array(npr.loadtxt('u2 ts=4 .txt')).reshape(1,-1)
-    #v2 = np.array(npr.loadtxt('v2 ts=4 .txt')).reshape(1,-1)
     X1 = np.array(npr.loadtxt('X1.txt')).reshape(1,-1)
     Y1 = np.array(npr.loadtxt('Y1.txt')).reshape(1,-1)
 
