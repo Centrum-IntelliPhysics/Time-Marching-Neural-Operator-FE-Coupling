@@ -34,7 +34,7 @@ originalDir = os.getcwd()
 print('curent working directory:', originalDir)
 os.chdir(os.path.join(originalDir))
 
-foldername = 'hyper_elasticity_quasi_static_ground_truth'  
+foldername = 'Hyper_elasticity_quasi_static_ground_truth'  
 createFolder(foldername )
 os.chdir(os.path.join(originalDir, './'+ foldername + '/')) 
 
@@ -52,8 +52,8 @@ num_points1 = 200
 
 
 #region FEM 
-os.chdir('Hyper_elastic_Gmsh')
-mesh1, cell_markers, facet_markers  = gmshio.read_from_msh("full_sqaure.msh", MPI.COMM_WORLD) 
+os.chdir(os.path.join(originalDir, './Hyper_elastic_Gmsh/'))
+mesh1, cell_markers, facet_markers  = gmshio.read_from_msh("full_square.msh", MPI.COMM_WORLD) 
 V = functionspace(mesh1, ("CG", 1, (mesh1.geometry.dim, ))) ###without  (mesh1.geometry.dim, ), it is a scalar space not a vector space 
 os.chdir(origin_real)
 
@@ -97,45 +97,6 @@ def disk2(x):
     xc = x[0][np.where((x[0]-center[0])**2 + (x[1]-center[1])**2 <= radius1**2)]
     yc = x[1][np.where((x[0]-center[0])**2 + (x[1]-center[1])**2 <= radius1**2)]
     return xc, yc
-
-# region Mypression
-#=====================================================================
-# MyExpression is used to interpolate the displacement at the boundary
-#=====================================================================
-class MyExpression:
-    def __init__(self, x0, y0, value, V_dim):
-        self.x0 = x0
-        self.y0 = y0
-        self.value  = value
-        self.V_dim = V_dim        
-        self.RBF_0  = Rbf(x0, y0, value[0])
-        self.RBF_1  = Rbf(x0, y0, value[1])
-        
-    def eval(self, x):
-        values = np.zeros((self.V_dim, x.shape[1]))
-        values[0] = np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-4, 1e-4), 
-                            self.RBF_0(x[0], x[1]), 0)
-        values[1] = np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius**2, 1e-4, 1e-4),
-                            self.RBF_1(x[0], x[1]), 0)
-        return values 
-
-class MyExpression_inner_hole:
-    def __init__(self, x0, y0, value, V_dim):
-        self.x0 = x0
-        self.y0 = y0
-        self.value  = value
-        self.V_dim = V_dim        
-        self.RBF_0  = Rbf(x0, y0, value[0])
-        self.RBF_1  = Rbf(x0, y0, value[1])
-        
-    def eval(self, x):
-        values = np.zeros((self.V_dim, x.shape[1]))
-        values[0] = np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius1**2, 1e-4, 1e-4), 
-                            self.RBF_0(x[0], x[1]), 0)
-        values[1] = np.where(np.isclose((x[0]-center[0])**2 + (x[1]-center[1])**2, radius1**2, 1e-4, 1e-4),
-                            self.RBF_1(x[0], x[1]), 0)
-        return values 
-
 
 # strain function in ufl(a domain specific language for declaration of finite element discretizations of variational forms)
 def epsilon(u):

@@ -242,49 +242,6 @@ gmsh.write("inner_hole.msh")
 # Finalize GMSH
 gmsh.finalize()
 
-
-# read .msh file
-msh = meshio.read("outer_region.msh")
-# extract points and cell information
-points = msh.points
-cells = msh.cells_dict["triangle"]  
-plt.figure(figsize=(8, 8))
-
-#plot every triangle 
-for cell in cells:
-    polygon = points[cell]
-    polygon = np.vstack([polygon, polygon[0]])
-    plt.plot(polygon[:, 0], polygon[:, 1], 'k-', linewidth=0.5)  # 用黑色线条绘制
-
-#set axis 
-plt.gca().set_aspect('equal')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Gmsh Mesh Visualization2')
-plt.savefig('outer_region' + ".jpg", dpi=700)
-plt.show()
-
-# read .msh file 
-msh = meshio.read("inner_hole.msh")
-# extract points and cell information
-points = msh.points
-cells = msh.cells_dict["triangle"]  
-# plot the mesh 
-plt.figure(figsize=(8, 8))
-
-# plot every triangle
-for cell in cells:
-    polygon = points[cell]
-    polygon = np.vstack([polygon, polygon[0]])
-    plt.plot(polygon[:, 0], polygon[:, 1], 'k-',linewidth=0.5)  # 用黑色线条绘制
-
-plt.gca().set_aspect('equal')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Gmsh Mesh Visualization')
-plt.savefig('inner_hole' + ".jpg", dpi=700)
-plt.show()
-
 # full square 
 gmsh.initialize()
 gmsh.model.add("model")
@@ -410,4 +367,47 @@ plt.xlabel('X')
 plt.ylabel('Y')
 plt.title('Gmsh Mesh Visualization')
 plt.savefig('full_sqaure' + ".jpg", dpi=700)
+plt.show()
+
+
+# read .msh file
+msh = meshio.read("outer_region.msh")
+# extract points and cell information
+points = msh.points
+cells = msh.cells_dict["triangle"]  
+plt.figure(figsize=(8, 8))
+
+#plot every triangle 
+for cell in cells:
+    polygon = points[cell]
+    polygon = np.vstack([polygon, polygon[0]])
+    plt.plot(polygon[:, 0], polygon[:, 1], 'k-', linewidth=0.5)  # 用黑色线条绘制
+
+#set axis 
+plt.gca().set_aspect('equal')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Gmsh Mesh Visualization2')
+plt.savefig('outer_region' + ".jpg", dpi=700)
+plt.show()
+
+# read .msh file 
+msh = meshio.read("inner_hole.msh")
+# extract points and cell information
+points = msh.points
+cells = msh.cells_dict["triangle"]  
+# plot the mesh 
+plt.figure(figsize=(8, 8))
+
+# plot every triangle
+for cell in cells:
+    polygon = points[cell]
+    polygon = np.vstack([polygon, polygon[0]])
+    plt.plot(polygon[:, 0], polygon[:, 1], 'k-',linewidth=0.5)  # 用黑色线条绘制
+
+plt.gca().set_aspect('equal')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Gmsh Mesh Visualization')
+plt.savefig('inner_hole' + ".jpg", dpi=700)
 plt.show()
