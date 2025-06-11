@@ -455,6 +455,7 @@ np.savetxt('consuming time',np.array([time_1 - time_0, time_1 - start1]))
 #=========================================================
 
 try:
+    i = 4
     os.chdir(os.path.join(originalDir, './' + 'FE_DeepONet_hyper_elasticity_quasi_static_coupling_results' + '/'))
     X_NN, Y_NN, X1_NN, Y1_NN = np.loadtxt('X.txt'), np.loadtxt('Y.txt'), np.loadtxt('X1.txt'), np.loadtxt('Y1.txt')
     # for interpolation FE_NN coupling
