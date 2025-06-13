@@ -105,9 +105,9 @@ class PI_DeepONet:
         print('B.shape=', B.shape, 'T.shape=', T.shape)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 4m]
-        # trunk: [p, 2]
-        # output: [batch_size, p]
+        # branch: [batch_size, 2m] --> [2m, 800]
+        # trunk: [p, 2] --> [p, 800]
+        # output by Einstein summation: [batch_size, p]
         outputs = np.einsum('ij,kj->ik', B, T)
         print(outputs.shape)
         return  outputs
@@ -120,9 +120,9 @@ class PI_DeepONet:
         T = self.trunk_apply(trunk_params, h)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 4m]
-        # trunk: [p, 2]
-        # output: [batch_size, p]
+        # branch: [batch_size, 2m] --> [2m, 800]
+        # trunk: [p, 2] --> [p, 800]
+        # output by Einstein summation: [batch_size, p]
         outputs = np.einsum('ij,kj->ik', B, T)
         return  outputs
 
