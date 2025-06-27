@@ -28,6 +28,7 @@ import jax.nn as jnn
 from jax.lax import conv_general_dilated as conv_lax
 from interpax import Interpolator2D
 import flax.linen as fnn
+from Elasto_dyanmic_utils import createFolder, plot_disp, plot_relative_error, plot_loss, plot_bc
 # %matplotlib inline
 
 # region neural net
@@ -215,8 +216,8 @@ class PI_DeepONet:
         T = self.trunk_apply(trunk_params_v, h)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 4m1]
-        # branch_1: [batch_size, 2m]
+        # branch: [batch_size, 4*ms] --> [batch_size, 800]
+        # branch_1: [batch_size, 2*m]--> [batch_size, 800]
         # trunk: [p, 2]
         # output: [batch_size, p]
         B_tot = B * B_1 # element-wise multiplication keep the same shape
@@ -232,8 +233,8 @@ class PI_DeepONet:
         T = self.trunk_apply(trunk_params_v, h)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 4m1]
-        # branch_1: [batch_size, 2m]
+        # branch: [batch_size, 4*ms] --> [batch_size, 800]
+        # branch_1: [batch_size, 2*m]--> [batch_size, 800]
         # trunk: [p, 2]
         # output: [batch_size, p]
         B_tot = B * B_1 # element-wise multiplication keep the same shape
@@ -244,8 +245,6 @@ class PI_DeepONet:
     # region residual net 
     # Define ODE/PDE residual
     def residual_net(self, params, u, v, x, y):
-        #s = self.operator_net(params, u, x, y)
-        #s_t = grad(self.operator_net, argnums=3)(params, u, x, t)
         params_u, params_v = params
 
         s_u_yy= jax.jvp(lambda y : jax.jvp(lambda y: self.operator_net_u(params_u, u, x, y), (y,), (np.ones_like(y),))[1]
@@ -268,7 +267,7 @@ class PI_DeepONet:
         s_ay = -2/(dt*beta)**2*(v_old + vy_old*dt - self.operator_net_v(params_v, v, x, y)) #+ (1-beta)/(beta) * ay_old
 
         para1 = self.E/((1 + self.nu)*(1-2*self.nu))
-        ###Newton's second law in plane strain 
+        ###Newton's second law 
         res0 = para1*((1-self.nu) * s_u_xx + self.nu * s_v_xy) + para1*(1-2*self.nu)/2*(s_u_yy + s_v_xy) - self.rho * s_ax
         res1 = para1*((1-self.nu) * s_v_yy + self.nu * s_u_xy) + para1*(1-2*self.nu)/2*(s_v_xx + s_u_xy) - self.rho * s_ay
 
@@ -299,22 +298,24 @@ class PI_DeepONet:
     # region loss 
     # Define boundary loss
     def loss_bcs(self, params, batch):
+        # Fetch data
+        # inputs: (u, v, h), shape = (batch_size, 4*ms + 2*4*m), (batch_size, 4*ms + 2*4*m), (nx1, 2)
+        # outputs: (s_u, s_v) shape = (batch_size, 4*nx1), (batch_size, 4*nx1)
         inputs, outputs = batch
         u, v, h = inputs
         params_u, params_v, = params
         # Compute forward pass
         s_u_pred = self.operator_net_u(params_u, u, h[:, 0], h[:, 1])
         s_v_pred = self.operator_net_v(params_v, v, h[:, 0], h[:, 1])
-        ## outputs always be 0 
+
         loss =  np.mean((outputs[0]- s_u_pred)**2) + np.mean((outputs[1] - s_v_pred)**2)
         return loss
 
     # Define residual loss
     def loss_res(self, params, batch):
         # Fetch data
-        # inputs: (u1, y), shape = (Nxm, m), (Nxm,1)
-        # outputs: u2, shape = (Nxm, 1)
-        ## u2 is s_res, in this case s_res = u(x)
+        # inputs: (u, v, h), shape = (batch_size, 4*ms + 2*4*m), (batch_size, 4*ms + 2*4*m), (nx1, 2)
+        # outputs: (s_u, s_v) shape = (batch_size, 4*ms), (batch_size, 4*ms)
         
         inputs, outputs = batch
         u, v, h = inputs
@@ -386,56 +387,7 @@ class PI_DeepONet:
         r_pred = vmap(self.residual_net, (None, 0, 0, 0))(params, U_star, V_star, Y_star[:,0], Y_star[:,1])
         return r_pred
 
-# region utils 
-#utils 
-def plot_s(XX, TT, S_pred, filename):
-    plt.figure(figsize=(6,5))
-    ax = plt.subplot(1,1,1)
-    #plt.pcolor(XX, TT, S_pred, cmap='seismic')
-    sc = ax.scatter(XX, TT, c=S_pred, s=5, cmap='seismic')
-    plt.colorbar(sc)
-    plt.xlabel('$x$')
-    plt.ylabel('$y$')
-    plt.title(filename)
-    plt.tight_layout()
-    plt.savefig(filename + ".jpg", dpi=700)
-    plt.show()
-    plt.close()
 
-def plot_loss(loss_bcs_log, loss_res_log):
-    plt.figure(figsize = (6,5))
-    plt.plot(loss_bcs_log, lw=2, label='bcs')
-    plt.plot(loss_res_log, lw=2, label='res')
-    
-    plt.xlabel('Iteration')
-    plt.ylabel('Loss')
-    plt.yscale('log')
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig('loss' + ".jpg", dpi=700)
-    plt.show()
-    plt.close()
-    
-def plot_bc(bc, dis, filename):
-    plt.figure(figsize = (6,5))
-    plt.plot(bc,dis, lw=2, label=filename)
-    plt.xlabel('x')
-    plt.ylabel('displament')
-    #plt.yscale('log')
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(filename + ".jpg", dpi=700)
-    plt.show()
-    plt.close()    
-    
-
-
-def createFolder(folder_name):
-    try:
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
-    except OSError:
-        print ('Error: Creating folder. ' +  folder_name)
 
 # region Data generator
 class DataGenerator():
@@ -488,7 +440,7 @@ def RBF(x1, x2, params): #radial basis function
     
 
 # To generate (x,t) (u, y)
-def solve_ADR(key, Nx, Nt, P, length_scale):
+def generate_training_data(key, Nx, Nt, P, length_scale):
     """No need explicit resolution 
     """
     # Generate subkeys
@@ -631,7 +583,7 @@ def generate_one_training_data(key, P, Q, N):
 def generate_one_test_data(key, P):
     Nx = P
     Ny = P
-    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = solve_ADR(key, Nx , Ny, P, length_scale)
+    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = generate_training_data(key, Nx , Ny, P, length_scale)
     # choose the 0 interval solution to predict 
     u_l = u_c_n
     v_l = v_c_p
@@ -858,12 +810,12 @@ if __name__ == "__main__":
     s_u_pred, s_v_pred = model.predict_s(params, u_test, v_test, y_test)
 
     # Plot
-    plot_s(X1_real, Y1_real, s_u_pred, 's_u_test1')
-    plot_s(X1_real, Y1_real, s_v_pred,'s_v_test1')
-    plot_s(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2')
-    plot_s(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2')
-    plot_s(X1_real, Y1_real, s_u_pred.flatten() - U1_new.flatten(), 's_u_test2_diff_real')
-    plot_s(X1_real, Y1_real, s_v_pred.flatten() - V1_new.flatten(), 's_v_test2_diff_real')
+    plot_disp(X1_real, Y1_real, s_u_pred, 's_u_test1', rf'$u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real, s_v_pred,'s_v_test1',rf'$v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2', rf'$u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2', rf'$v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 's_u_test2_diff_real',rf'$|u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 's_v_test2_diff_real',rf'$|v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
     
 
      

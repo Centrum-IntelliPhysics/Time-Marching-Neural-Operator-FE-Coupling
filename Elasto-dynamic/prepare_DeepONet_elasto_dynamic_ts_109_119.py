@@ -488,7 +488,7 @@ def RBF(x1, x2, params): #radial basis function
     
 
 # To generate (x,t) (u, y)
-def solve_ADR(key, Nx, Nt, P, length_scale):
+def generate_training_data(key, Nx, Nt, P, length_scale):
     """No need explicit resolution 
     """
     # Generate subkeys
@@ -631,7 +631,7 @@ def generate_one_training_data(key, P, Q, N):
 def generate_one_test_data(key, P):
     Nx = P
     Ny = P
-    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = solve_ADR(key, Nx , Ny, P, length_scale)
+    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = generate_training_data(key, Nx , Ny, P, length_scale)
     # choose the 0 interval solution to predict 
     u_l = u_c_n
     v_l = v_c_p

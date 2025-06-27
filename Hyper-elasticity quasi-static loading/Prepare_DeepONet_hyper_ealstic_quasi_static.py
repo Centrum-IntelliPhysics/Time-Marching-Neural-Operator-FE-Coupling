@@ -105,7 +105,7 @@ class PI_DeepONet:
         print('B.shape=', B.shape, 'T.shape=', T.shape)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 2m] --> [2m, 800]
+        # branch: [batch_size, 2m] --> [batch_size, 800]
         # trunk: [p, 2] --> [p, 800]
         # output by Einstein summation: [batch_size, p]
         outputs = np.einsum('ij,kj->ik', B, T)
@@ -120,7 +120,7 @@ class PI_DeepONet:
         T = self.trunk_apply(trunk_params, h)
         # Compute the final output
         # Input shapes:
-        # branch: [batch_size, 2m] --> [2m, 800]
+        # branch: [batch_size, 2m] --> [batch_size, 800]
         # trunk: [p, 2] --> [p, 800]
         # output by Einstein summation: [batch_size, p]
         outputs = np.einsum('ij,kj->ik', B, T)
@@ -498,7 +498,7 @@ def RBF(x1, x2, params): #radial basis function
     return output_scale**2 * np.exp(-0.5 * C**2)* (0.5 * C)
 
 # To generate (x,t) (u, y)
-def solve_ADR(key, Nx, Nt, P, length_scale):
+def generate_one_training_data(key, Nx, Nt, P, length_scale):
     """No need explicit resolution 
     """
     # Generate subkeys
@@ -578,7 +578,7 @@ def generate_one_training_data(key, P, Q, N):
     keys = random.split(key, N)
     # Numerical solution
     # adding 0 interval dosn't work in Static solution 
-    '''u_c_, v_c_, u_c_p, v_c_p, u_c_n, v_c_n =  vmap(solve_ADR, (0, None, None, None, None))(keys, Nx , Ny, P, length_scale)
+    '''u_c_, v_c_, u_c_p, v_c_p, u_c_n, v_c_n =  vmap(generate_one_training_data, (0, None, None, None, None))(keys, Nx , Ny, P, length_scale)
     u_c_tot = np.vstack([u_c_, u_c_p, u_c_n])
     v_c_tot = np.vstack([v_c_, v_c_p, v_c_n])
     idx0 = random.choice(keys[0], u_c_tot.shape[0], shape = (N,), replace=False) 
@@ -586,7 +586,7 @@ def generate_one_training_data(key, P, Q, N):
     u_c = u_c_tot[idx0,:]
     v_c = v_c_tot[idx1,:]'''
 
-    u_c, v_c = vmap(solve_ADR, (0, None, None, None, None))(keys, Nx , Ny, P, length_scale)
+    u_c, v_c = vmap(generate_one_training_data, (0, None, None, None, None))(keys, Nx , Ny, P, length_scale)
     '''idx_u = random.choice(keys[0], u_c1.shape[0] + u_c2.shape[0], shape = (N,), replace=False)
     idx_v = random.choice(keys[1], v_c1.shape[0] + v_c2.shape[0], shape = (N,), replace=False)
     u_c = np.vstack([u_c1, u_c2])[idx_u,:]
@@ -657,7 +657,7 @@ def generate_one_training_data(key, P, Q, N):
 def generate_one_test_data(key, P):
     Nx = P
     Ny = P
-    u_c, v_c,  = solve_ADR(key, Nx , Ny, P, length_scale)
+    u_c, v_c,  = generate_one_training_data(key, Nx , Ny, P, length_scale)
     # choose the 0 interval solution to predict 
     u_l = u_c
     v_l = v_c
