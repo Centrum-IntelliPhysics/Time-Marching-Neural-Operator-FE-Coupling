@@ -28,7 +28,7 @@ import jax.nn as jnn
 from jax.lax import conv_general_dilated as conv_lax
 from interpax import Interpolator2D
 import flax.linen as fnn
-from Elasto_dyanmic_utils import createFolder, plot_disp, plot_relative_error, plot_loss, plot_bc
+from dyanmic_utils import createFolder, plot_disp, plot_relative_error, plot_loss, plot_bc
 # %matplotlib inline
 
 # region neural net
