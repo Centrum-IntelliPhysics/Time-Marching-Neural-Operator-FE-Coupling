@@ -21,7 +21,13 @@ Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh
 # Application 
 # Content 
 # Get started 
+
+# Citation 
+If you find this Github repository useful for your work, please condier citing this work:
+
+
 # Contact 
+For more information or questions please contact 
 
 
 
