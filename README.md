@@ -21,8 +21,7 @@ Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh
 # Application 
 # Content 
 
-# Get started 
-## Virtual Environment   
+# Get started  
 Install the JAX on website: https://docs.jax.dev/en/latest/installation.html  
 CUDA version:
 <pre><code>pip install --upgrade pip
