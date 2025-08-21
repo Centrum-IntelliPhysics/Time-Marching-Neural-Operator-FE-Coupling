@@ -1,6 +1,6 @@
 # Table of Content 
 
-# [General information](# General information)
+[General information](# General information)
 
 
 # General information
