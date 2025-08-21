@@ -1,5 +1,5 @@
 # Table of Content 
-/dot [General information](# General information)
+/dot [General information](# General-information)
 
 
 # General information
