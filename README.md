@@ -20,7 +20,23 @@ Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh
 
 # Application 
 # Content 
+
 # Get started 
+## Virtual Environment   
+Install the JAX on website: https://docs.jax.dev/en/latest/installation.html  
+CUDA version:
+<pre><code>pip install --upgrade pip
+# NVIDIA CUDA 12 installation
+# Note: wheels only available on linux.
+pip install --upgrade "jax[cuda12]"
+</code></pre>  
+
+Install FEniCSx on website: https://fenicsproject.org/download/  
+Conda install:
+<pre><code>conda create -n fenicsx-env
+conda activate fenicsx-env
+conda install -c conda-forge fenics-dolfinx mpich pyvista
+</code></pre>
 
 # Citation 
 If you find this Github repository useful for your work, please condier citing this work:
@@ -36,26 +52,5 @@ For more information or questions please contact
 
 
 
-
-# DeepONet_FEM_Coupling
-Attached code in relevant paper: [Accelerating Multiscale Modeling with Hybrid Solvers: Coupling FEM and Neural Operators with Domain Decomposition](
-https://doi.org/10.48550/arXiv.2504.11383)
-
-## Virtual Environment   
-Install the JAX on website: https://docs.jax.dev/en/latest/installation.html  
-CUDA version:
-<pre><code>pip install --upgrade pip
-# NVIDIA CUDA 12 installation
-# Note: wheels only available on linux.
-pip install --upgrade "jax[cuda12]"
-</code></pre>  
-
-
-Install FEniCSx on website: https://fenicsproject.org/download/  
-Conda install:
-<pre><code>conda create -n fenicsx-env
-conda activate fenicsx-env
-conda install -c conda-forge fenics-dolfinx mpich pyvista
-</code></pre>
 
 
