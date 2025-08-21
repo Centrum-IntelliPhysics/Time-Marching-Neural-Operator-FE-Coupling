@@ -16,10 +16,12 @@ This Git repository contains codes for the '**Time-marching neural operator–FE
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
 # Method
+## DeepONet structures 
 
+## Time marching working flow
 
 # Application 
-**Elasto-dynamic results** are shown as below:
+## Elasto-dynamic 
 
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 Note that yellow square is the NO domain.
