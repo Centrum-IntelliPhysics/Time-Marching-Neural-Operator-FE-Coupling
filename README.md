@@ -9,7 +9,7 @@
 
 -[Get started](#-Get-started)
 
--[Contact](#-contact)\\
+-[Contact](#-contact)
 
 # General information
 # Method
