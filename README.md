@@ -22,7 +22,9 @@ Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 Note that yellow square is the NO domain.
 
-The results for linear staticity under static loading and hyper-elasticity under quasi-static loading are shown in 
+The results for linear staticity under static loading and hyper-elasticity under quasi-static loading are shown in folder [linear staticity static loading
+]() and [hyper-elasticity quasi-static loading]().
+
 # Method
 ## DeepONet structures 
 ![NO_structures](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/NO_structure.png)
