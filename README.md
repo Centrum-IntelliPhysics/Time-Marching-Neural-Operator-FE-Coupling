@@ -1,9 +1,14 @@
 # Table of Content 
--[General information](#-General-information)\\
--[Method](#-Method)\\
--[Application](#-Application)\\
--[Content](#-Content)\\
--[Get started](#-Get-started)\\
+-[General information](#-General-information)
+
+-[Method](#-Method)
+
+-[Application](#-Application)
+
+-[Content](#-Content)
+
+-[Get started](#-Get-started)
+
 -[Contact](#-contact)\\
 
 # General information
