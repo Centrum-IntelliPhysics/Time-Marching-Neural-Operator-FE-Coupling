@@ -28,7 +28,8 @@ If you find this Github repository useful for your work, please condier citing t
 </code></pre> 
 # Contact 
 For more information or questions please contact 
-[Wei Wang@jh.edu](wwang198@jh.edu)
+[Wei Wang@jh.edu](mailto:wwang198@jh.edu)
+[Somdatta Goswami@jhu.edu](mailto:somdatta@jhu.edu)
 
 
 
