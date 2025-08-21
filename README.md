@@ -12,6 +12,8 @@
 -[Contact](#-contact)
 
 # General information
+This Git repository contains codes for the 'Time-marching neural operator–FE coupling: AI-accelerated physics modeling' paper published in [Computer Methods in Applied Mechanics and Engineering](https://doi.org/10.1016/j.cma.2025.118319)
+
 # Method
 # Application 
 # Content 
