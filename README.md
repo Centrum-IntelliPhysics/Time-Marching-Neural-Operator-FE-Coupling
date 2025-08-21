@@ -3,7 +3,7 @@
 
 -[Application](#-application)
 
--[Method](#-Method)
+-[Method](#Method)
 
 -[Content](#-Content)
 
