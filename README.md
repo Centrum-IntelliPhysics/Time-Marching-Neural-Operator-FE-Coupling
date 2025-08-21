@@ -31,14 +31,14 @@ Note that yellow square is the NO domain.
 # Content 
 
 # Get started  
-Create conda environment and install FEniCSx (a FEM solver) on website: https://fenicsproject.org/download/  
+Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (a FEM solver)   
 Conda install:
 <pre><code>conda create -n fenicsx-env
 conda activate fenicsx-env
 conda install -c conda-forge fenics-dolfinx mpich pyvista
 </code></pre>
 
-Install the JAX on website: https://docs.jax.dev/en/latest/installation.html  
+Install the [JAX](https://docs.jax.dev/en/latest/installation.html)
 CUDA version:
 <pre><code>pip install --upgrade pip
 # NVIDIA CUDA 12 installation
