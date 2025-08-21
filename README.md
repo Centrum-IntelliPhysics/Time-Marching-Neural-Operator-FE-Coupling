@@ -1,7 +1,7 @@
 # Table of Content 
--[General information](#-General-information)
+-[General information](#-general-information)
 
--[Application](#-Application)
+-[Application](#-application)
 
 -[Method](#-Method)
 
