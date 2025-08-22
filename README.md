@@ -15,7 +15,7 @@
 This Git repository contains codes for the '**Time-marching neural operator–FE coupling: AI-accelerated physics modeling**' paper published in [Computer Methods in Applied Mechanics and Engineering](https://doi.org/10.1016/j.cma.2025.118319)
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
-## initial motivations
+## Initial motivations
 The motivation is to establish a FE-NO coupling framework using a domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. FEM requires extremely fine meshes to capture the nonlinear behaviors, which is computationally expensive; while DeepONets are non-linear mappings and can be pretrained offlines, which cost negligible time during the simulations. 
 
 The combination of the two solvers are expected to significantly improve the computational efficiency and robustness while maintaining the accuracy of the solution.
