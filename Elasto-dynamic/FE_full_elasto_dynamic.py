@@ -632,18 +632,18 @@ for ts in trange(141):
         np.savetxt('sigma_xy1 ts = ' + str(ts) +'.txt', sigma_xy1)'''
 
 
-if ts == ts_end or ts == ts_end + 19 or ts == ts_end + 20:
-    plot_disp(X,Y,U_, 'displacement u ts=' + str(ts), rf'$u_{{\mathrm{{FE}}}}^{{{ts}}}$')
-    plot_disp(X,Y,V_,'displacement v ts=' + str(ts), rf'$v_{{\mathrm{{FE}}}}^{{{ts}}}$')
-    plot_disp(X,Y,sigma_tot[:,0], 'sigma_x ts=' + str(ts), rf'$\sigma_{{x,\mathrm{{FE}}}}^{{{ts}}}$')
-    plot_disp(X,Y,sigma_tot[:,4],'sigma_y ts=' + str(ts), rf'$\sigma_{{y,\mathrm{{FE}}}}^{{{ts}}}$')
-    # save the data for interpolation to calculate the error 
-    np.savetxt('X.txt', X)
-    np.savetxt('Y.txt', Y)
-    np.savetxt('u ts=' + str(ts) + '.txt', U_)
-    np.savetxt('v ts=' + str(ts) + '.txt', V_)
-    np.savetxt('sigma_x ts=' + str(ts) + '.txt', sigma_tot[:,0])
-    np.savetxt('sigma_y ts=' + str(ts) + '.txt', sigma_tot[:,4])
+    if ts == ts_end or ts == ts_end + 10 or ts == ts_end + 20:
+        plot_disp(X,Y,U_, 'displacement u ts=' + str(ts), rf'$u_{{x, \mathrm{{FE}}}}^{{{ts}}}$')
+        plot_disp(X,Y,V_,'displacement v ts=' + str(ts), rf'$u_{{y, \mathrm{{FE}}}}^{{{ts}}}$')
+        #plot_disp(X,Y,sigma_tot[:,0], 'sigma_x ts=' + str(ts), rf'$\sigma_{{x,\mathrm{{FE}}}}^{{{ts}}}$')
+        #plot_disp(X,Y,sigma_tot[:,4],'sigma_y ts=' + str(ts), rf'$\sigma_{{y,\mathrm{{FE}}}}^{{{ts}}}$')
+        # save the data for interpolation to calculate the error 
+        np.savetxt('X.txt', X)
+        np.savetxt('Y.txt', Y)
+        np.savetxt('u ts=' + str(ts) + '.txt', U_)
+        np.savetxt('v ts=' + str(ts) + '.txt', V_)
+        np.savetxt('sigma_x ts=' + str(ts) + '.txt', sigma_tot[:,0])
+        np.savetxt('sigma_y ts=' + str(ts) + '.txt', sigma_tot[:,4])
 
 end_time= time.time()
 print('Time cost:', end_time - start_time)
