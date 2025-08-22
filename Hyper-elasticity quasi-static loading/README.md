@@ -3,7 +3,7 @@
 1. FE_full_square_hyper.py is the script to generate the ground truth for hyper-elastic square under static loading by FEM.  
    The results are saved in folder: Hyper_elasticity_quasi_static_ground_truth.  
 
-2. Prepare_DeepONet_hyper_elastic_quasi_static.py is the script to train the Deep Operator Neural Network (DeepONet).  
+2. Prepare_DeepONet_hyper_elastic_quasi_static.py is the script to train the Physics-Informed DeepONet.  
    The results are saved in folder: Pretrained_DeepONet_hyper_elastic_quasi_static.  
 
 3. FE_DeepONet_hyper_elasticity_quasi_static_coupling.py is the framework which couples the FE and DeepONet to solve the hyper-elasticity under quasi-static loading. The results are saved in folder: FE_DeepONet_hyper_elasticity_quasi_static_coupling_results.
