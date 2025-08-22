@@ -1,6 +1,6 @@
 # Linear Elasticity under static loading conditions  
 ## Code execution order:  
-1. FE_full_static.py is the script to generate the ground truth using FEM to solve a linear elastic square under static loading.  
+1. FE_full_static.py is the script to generate the ground truth for a linear elastic square under static loading by FEM.  
    The results are saved in folder: static_data_ground_truth.  
 
 2. Prepare_DeepONet_static.py is the script to train the Physics-informed DeepONet.  
