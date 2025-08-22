@@ -7,7 +7,6 @@ DeepONet Model for elasto-dynamic for time steps 99 to 109
 2D plane strain problem
 Square + square domain (overlapping boundary)
 """
-# Commented out IPython magic to ensure Python compatibility.
 import os
 import jax
 import jax.numpy as np
@@ -15,12 +14,9 @@ from jax import random, grad, vmap, jit, hessian, lax
 from jax.example_libraries import optimizers
 from jax.nn import relu
 from jax import config
-#from jax.ops import index_update, index
 from jax.flatten_util import ravel_pytree
-
 import itertools
 from functools import partial
-#from torch.utils import data
 from tqdm import trange, tqdm
 import matplotlib.pyplot as plt
 import math  
@@ -774,12 +770,12 @@ if __name__ == "__main__":
     s_u_pred, s_v_pred = model.predict_s(params, u_test, v_test, y_test)
 
     # Plot
-    plot_disp(X1_real, Y1_real, s_u_pred, 'u_x_pred', rf'$u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real, s_v_pred,'u_y_pred',rf'$u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 'u_x_truth', rf'$u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 'u_y_truth', rf'$u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 'u_x_error',rf'$|u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 'u_y_error',rf'$|u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
+    plot_disp(X1_real, Y1_real, s_u_pred, 'u_x_pred', rf'$u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{102}}}$')
+    plot_disp(X1_real, Y1_real, s_v_pred,'u_y_pred',rf'$u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{102}}}$')
+    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 'u_x_truth', rf'$u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{102}}}$')
+    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 'u_y_truth', rf'$u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{102}}}$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 'u_x_error',rf'$|u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{102}}} - u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{102}}}|$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 'u_y_error',rf'$|u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{102}}} - u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{102}}}|$')
     
 
 

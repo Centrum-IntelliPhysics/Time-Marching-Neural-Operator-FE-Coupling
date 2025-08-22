@@ -7,7 +7,6 @@ DeepONet Model for elasto-dynamic for time steps 89 to 99
 Square + square domain (overlapping boundary)
 """
 
-# Commented out IPython magic to ensure Python compatibility.
 import os
 import jax
 import jax.numpy as np
@@ -15,12 +14,9 @@ from jax import random, grad, vmap, jit, hessian, lax
 from jax.example_libraries import optimizers
 from jax.nn import relu
 from jax import config
-#from jax.ops import index_update, index
 from jax.flatten_util import ravel_pytree
-
 import itertools
 from functools import partial
-#from torch.utils import data
 from tqdm import trange, tqdm
 import matplotlib.pyplot as plt
 import math  
