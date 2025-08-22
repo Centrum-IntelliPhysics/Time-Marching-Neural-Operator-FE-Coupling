@@ -35,7 +35,7 @@ To achieve FE-NO coupling in dynamic problems, it requires both the spatial and 
 ## Schwartz alternating method at overlapping boundary
 ![Schwartz_alternating_method](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schwartz_alternating_method.png)
 ## Time-marching DeepONet structures 
-The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be trained directly using residual and boundary loss functions, without requiring additional data.
+The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be trained directly using residual and boundary loss functions, without requiring additional data, resulting in the Physic-informed DeepONets. 
 ![NO_structures](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/NO_structure.png)
 ## Time-marching workflow
 The implementation of the time-marching DeepONet is illustrated below:
