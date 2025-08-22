@@ -4,7 +4,7 @@ Part of the FEM-DeepONet coupling work
 -----------------------------------------------------------------------
 DeepONet Model for Linear Elasticity under static loading conditions 
 2D plane strain problem
-Square + circular domain (overlapping boudnary)
+Square + circular domain (overlapping boundary)
 """
 
 # Commented out IPython magic to ensure Python compatibility.

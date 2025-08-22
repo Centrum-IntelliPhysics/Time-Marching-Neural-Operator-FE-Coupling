@@ -1,9 +1,12 @@
 
-# -*- coding: utf-8 -*-
-"""PI DeepONet for 2D elasticity problem
-   New structure for DeepONet
 """
-
+=======================================================================
+Part of the FEM-DeepONet coupling work
+-----------------------------------------------------------------------
+DeepONet Model for elasto-dynamic for time steps 99 to 109
+2D plane strain problem
+Square + square domain (overlapping boundary)
+"""
 # Commented out IPython magic to ensure Python compatibility.
 import os
 import jax
@@ -444,9 +447,8 @@ def RBF(x1, x2, params): #radial basis function
     
 
 # To generate (x,t) (u, y)
-def solve_ADR(key, Nx, Nt, P, length_scale):
-    """No need explicit resolution 
-    """
+def PI_data_generation(key, Nx, Nt, P, length_scale):
+    '''Generate data for the PI DeepONet model'''
     # Generate subkeys
     xmin, xmax = 0, 10
     key, subkey0, subkey1= random.split(key, 3)
@@ -582,28 +584,6 @@ def generate_one_training_data(key, P, Q, N):
             s_v_train, u_r_train, v_r_train, h_r_train, s_r_train, h_train_l
 
 
-# region test data
-# Geneate test data corresponding to one input sample
-def generate_one_test_data(key, P):
-    Nx = P
-    Ny = P
-    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = solve_ADR(key, Nx , Ny, P, length_scale)
-    # choose the 0 interval solution to predict 
-    u_l = u_c_n
-    v_l = v_c_p
-
-    theta = np.linspace(0, 2 * np.pi, P)
-    r = np.linspace(0, radius, P)
-    T, R = np.meshgrid(theta, r)
-    XX = center[0] + R * np.cos(T)
-    YY = center[1] + R * np.sin(T)
-
-    u_test = np.hstack([u_l, v_l])
-    v_test = np.hstack([u_l, v_l])
-    h_test = np.hstack([XX.flatten()[:,None], YY.flatten()[:,None]]) ### because XX TT shape = P**2 transform them to (P**2,1) for h_stack (P**2,2)
-
-    return u_test, v_test, h_test
-
 # Geneate training data corresponding to N input sample
 def generate_training_data(key, N, P, Q):
     config.update("jax_enable_x64", True)
@@ -623,22 +603,8 @@ def generate_training_data(key, N, P, Q):
 
     config.update("jax_enable_x64", False)
     return     u_train, v_train,h_train, s_u_train, \
-    s_v_train, u_r_train, v_r_train, h_r_train, s_r_train
+                s_v_train, u_r_train, v_r_train, h_r_train, s_r_train
     
-# Geneate test data corresponding to N input sample
-def generate_test_data(key, N, P):
-
-    config.update("jax_enable_x64", True)
-    keys = random.split(key, N)
-    keys = keys[0]
-    u_test, v_test, y_test = generate_one_test_data(keys, P)
-    u_test = np.float32(u_test.reshape(N ,-1))
-    v_test = np.float32(v_test.reshape(N ,-1))
-    y_test = np.float32(y_test.reshape(N * P**2 ,-1))
-
-    config.update("jax_enable_x64", False)
-    return u_test, v_test, y_test
-    #return np.zeros(u_test.shape), y_test
 
 
 # Used in CNN parts 

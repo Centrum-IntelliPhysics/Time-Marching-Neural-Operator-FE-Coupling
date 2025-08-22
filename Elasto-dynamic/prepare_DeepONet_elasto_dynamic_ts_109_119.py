@@ -1,7 +1,10 @@
-
-# -*- coding: utf-8 -*-
-"""PI DeepONet for 2D elasticity problem
-   New structure for DeepONet
+"""
+=======================================================================
+Part of the FEM-DeepONet coupling work
+-----------------------------------------------------------------------
+DeepONet Model for elasto-dynamic for time steps 109 to 119
+2D plane strain problem
+Square + square domain (overlapping boundary)
 """
 
 # Commented out IPython magic to ensure Python compatibility.

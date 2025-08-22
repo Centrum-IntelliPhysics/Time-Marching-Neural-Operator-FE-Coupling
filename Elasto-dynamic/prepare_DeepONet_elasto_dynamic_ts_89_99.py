@@ -1,7 +1,10 @@
-
-# -*- coding: utf-8 -*-
-"""PI DeepONet for 2D elasticity problem
-   New structure for DeepONet
+"""
+=======================================================================
+Part of the FEM-DeepONet coupling work
+-----------------------------------------------------------------------
+DeepONet Model for elasto-dynamic for time steps 89 to 99
+2D plane strain problem
+Square + square domain (overlapping boundary)
 """
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -439,9 +442,8 @@ def RBF(x1, x2, params): #radial basis function
     
 
 # To generate (x,t) (u, y)
-def generate_training_data(key, Nx, Nt, P, length_scale):
-    """No need explicit resolution 
-    """
+def PI_data_generation(key, Nx, Nt, P, length_scale):
+    '''Generate data for the PI DeepONet model'''
     # Generate subkeys
     xmin, xmax = 0, 10
     key, subkey0, subkey1= random.split(key, 3)
@@ -575,6 +577,29 @@ def generate_one_training_data(key, P, Q, N):
 
     return u_train, v_train,h_train, s_u_train, \
             s_v_train, u_r_train, v_r_train, h_r_train, s_r_train, h_train_l
+
+
+
+# Geneate training data corresponding to N input sample
+def generate_training_data(key, N, P, Q):
+    config.update("jax_enable_x64", True)
+    u_train, v_train, h_train, s_u_train, s_v_train, u_r_train, v_r_train,\
+                         h_r_train, s_r_train, h_train_l = generate_one_training_data(key, P, Q ,N)
+
+    u_train = np.float32(u_train.reshape(N ,-1))  #turn to be (N, 4*m1 + 2*4*m)
+    v_train = np.float32(v_train.reshape(N ,-1)) 
+    h_train = np.float32(h_train.reshape(N ,-1, 2))
+    s_u_train = np.float32(s_u_train.reshape(N,-1))
+    s_v_train = np.float32(s_v_train.reshape(N,-1))
+    u_r_train = np.float32(u_r_train.reshape(N ,-1))
+    v_r_train = np.float32(v_r_train.reshape(N ,-1))
+    h_r_train = np.float32(h_r_train.reshape(N , -1 ,2))
+    
+    s_r_train = np.float32(s_r_train.reshape(N ,-1))
+
+    config.update("jax_enable_x64", False)
+    return     u_train, v_train,h_train, s_u_train, \
+                 s_v_train, u_r_train, v_r_train, h_r_train, s_r_train
 
 # Used in CNN parts 
 nx1 = 82
