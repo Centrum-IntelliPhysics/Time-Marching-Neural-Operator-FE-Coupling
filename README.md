@@ -35,10 +35,10 @@ To achieve FE-NO coupling in dynamic problems, it requires both the spatial and 
 ## Schwartz alternating method at overlapping boundary
 ![Schwartz_alternating_method](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schwartz_alternating_method.png)
 ## Time-marching DeepONet structures 
-The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be trained directly using residual and boundary loss functions, without requiring additional data, resulting in a physics-informed DeepONet architecture.
+The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be trained directly using residual and boundary loss functions, without requiring additional data.
 ![NO_structures](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/NO_structure.png)
 ## Time-marching workflow
-The implementation of the time-marchiing DeepONet is illustrated below:
+The implementation of the time-marching DeepONet is illustrated below:
 ![time-marching workflow](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/time-marching_workflow.png)
 
 # Content 
@@ -47,7 +47,7 @@ In this respository, we provide the codes for the following problems:
 - [Linear staticity under static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading)
 - [Hyper-elasticity under quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading)
 
-Each problem folder contains 'FE_full' file to run the standalone FEM simulation, 'prepare_DeepONet' file to train the specific DeepONet, 'FE_DeepONet' file to run the FE-NO coupling simulation, and 'README.md' file to provide the excutation order of the codes and the description of the results.
+Each problem folder contains 'FE_full' file to run the standalone FEM simulation, 'prepare_DeepONet' file to train the specific DeepONet, 'FE_DeepONet' file to run the FE-NO coupling simulation, and 'README.md' file to provide the excutation order of the codes and the simulation results.
 
 # Get started  
 Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (a FEM solver)   
