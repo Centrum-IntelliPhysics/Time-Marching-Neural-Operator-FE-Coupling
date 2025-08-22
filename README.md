@@ -70,14 +70,12 @@ If you find this Github repository useful for your work, please condier citing t
 <pre><code>
 </code></pre> 
 # Contact 
-For more information or questions please contact 
+For more information or questions please contact: 
 
 -[Wei Wang@jh.edu](mailto:wwang198@jh.edu)
 
 -[Somdatta Goswami@jhu.edu](mailto:somdatta@jhu.edu)
 
-
-
-
+The FE-NO coupling framework is currently under development. We warmly welcome any suggestions and feedback, and we are open to collaborating with researchers from diverse fields!
 
 
