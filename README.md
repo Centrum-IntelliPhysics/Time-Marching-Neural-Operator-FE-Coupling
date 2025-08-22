@@ -18,7 +18,7 @@ Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh
 ## Initial motivations
 The primary motivation is to establish a FE-NO coupling framework based on domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. The FEM requires extremely fine meshes to capture the nonlinear behaviors, which is computationally expensive; while DeepONets are non-linear mappings and can be pretrained offlines, which cost negligible time during the simulations.
 
-The coupling of the two solvers are expected to significantly enhance the computational efficiency and robustness while maintaining solution accuracy.
+The coupling of the two solvers is expected to leverage their complementary strengths, leading to a significant enhancement in computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Application 
 ## Elasto-dynamic 
