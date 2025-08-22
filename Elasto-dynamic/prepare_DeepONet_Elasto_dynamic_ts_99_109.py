@@ -655,7 +655,7 @@ if __name__ == "__main__":
     os.chdir(os.path.join(originalDir, './' + foldername + '/'))
     originalDir_real = os.path.join(originalDir, './' + foldername + '/')
 
-    os.chdir(os.path.join(originalDir, './' + 'dataload_from_full_square_dataset_99_109' + '/'))
+    os.chdir(os.path.join(originalDir, './' + 'FE_full_elasto_dynamic_ground_truth' + '/'))
 
     # GRF length scale
     length_scale = [1, 0.4] #0.2 for symetric RBF big length_scale
@@ -714,8 +714,8 @@ if __name__ == "__main__":
     #os.chdir('/nfsv4/21040463r/PINN/DeepONet_DR_no_ADR_to_ul_ur_vl_vr_test_rerun_0731_uxy_elastic')
     
     key = random.PRNGKey(0)
-    u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, u_res_train, \
-        v_res_train, h_res_train, s_res_train= generate_training_data(key, N, P_train, Q_train)
+    #u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, u_res_train, \
+    #    v_res_train, h_res_train, s_res_train= generate_training_data(key, N, P_train, Q_train)
    
     # Initialize model
     branch_layers_1 =  [2*4*m, 100, 100, 100, 100, 800]
@@ -724,32 +724,32 @@ if __name__ == "__main__":
     
     # Create data set
     batch_size =  100 #10000
-    bcs_dataset = DataGenerator(u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, batch_size)
+    #bcs_dataset = DataGenerator(u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, batch_size)
     
-    res_dataset = DataGenerator(u_res_train, v_res_train, h_res_train, s_res_train, s_res_train, batch_size)
+    #res_dataset = DataGenerator(u_res_train, v_res_train, h_res_train, s_res_train, s_res_train, batch_size)
     
 
     # Train
-    model.train(bcs_dataset, res_dataset, nIter=1000000)
+    #model.train(bcs_dataset, res_dataset, nIter=1000000)
     
     # Test data
     P_test = m   # number of sensors
     
     # region prediction 
     # Predict
-    '''with open('DeepONet_DR_119_129_retest.pkl', 'rb') as f:
-        params = pickle.load(f)'''
+    with open('DeepONet_ED_99_109.pkl', 'rb') as f:
+        params = pickle.load(f)
         
-    params = model.get_params(model.opt_state)
-    with open('DeepONet_DR_119_129_retest.pkl', 'wb') as f:
+    '''params = model.get_params(model.opt_state)
+    with open('DeepONet_ED_99_109.pkl', 'wb') as f:
         pickle.dump(params, f)
 
 
     #Plot for loss function
-    plot_loss(model.loss_bcs_log, model.loss_res_log)
+    plot_loss(model.loss_bcs_log, model.loss_res_log)'''
 
     #real test   
-    os.chdir(os.path.join(originalDir, './' + 'FE_full_square_square_elasto_dynamic_data_set_ts_99_119' + '/'))
+    os.chdir(os.path.join(originalDir, './' + 'FE_full_elasto_dynamic_ground_truth' + '/'))
     
  
     import numpy as npr # jnp donesn't have loadtxt
@@ -808,12 +808,12 @@ if __name__ == "__main__":
     s_u_pred, s_v_pred = model.predict_s(params, u_test, v_test, y_test)
 
     # Plot
-    plot_disp(X1_real, Y1_real, s_u_pred, 's_u_test1', rf'$u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real, s_v_pred,'s_v_test1',rf'$v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2', rf'$u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2', rf'$v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 's_u_test2_diff_real',rf'$|u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 's_v_test2_diff_real',rf'$|v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
+    plot_disp(X1_real, Y1_real, s_u_pred, 'u_x_pred', rf'$u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real, s_v_pred,'u_y_pred',rf'$u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 'u_x_truth', rf'$u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 'u_y_truth', rf'$u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 'u_x_error',rf'$|u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 'u_y_error',rf'$|u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
     
 
 
