@@ -16,9 +16,9 @@ This Git repository contains codes for the '**Time-marching neural operator–FE
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
 ## Initial motivations
-The motivation is to establish a FE-NO coupling framework using a domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. FEM requires extremely fine meshes to capture the nonlinear behaviors, which is computationally expensive; while DeepONets are non-linear mappings and can be pretrained offlines, which cost negligible time during the simulations. 
+The primary motivation is to establish a FE-NO coupling framework based on domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. The computational expense of the FEM stems from its need for extremely fine meshes to resolve nonlinearities. DeepONets offer an efficient alternative as pretrained, offline nonlinear mappings that impose negligible costs during simulation.
 
-The combination of the two solvers are expected to significantly improve the computational efficiency and robustness while maintaining the accuracy of the solution.
+The coupling of the two solvers are expected to significantly enhance the computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Application 
 ## Elasto-dynamic 
