@@ -11,3 +11,6 @@
    Note: The prerequisite for running **FE_DeepONet_hyper_elasticity_quasi_static_coupling.py** is that **DeepONet_hyper_elasticity_quasi_static.pkl** already exists in directory Pretrained_DeepONet_hyper_elasticity_quasi_static.
 
 ## results:
+![hyper_displacement_u](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Hyper-elasticity%20quasi-static%20loading/readme_figures_HP/Fig.14_hyper_u.jpg)
+
+![hyper_displacement_v](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Hyper-elasticity%20quasi-static%20loading/readme_figures_HP/Fig.15_hyper_v.jpg)
