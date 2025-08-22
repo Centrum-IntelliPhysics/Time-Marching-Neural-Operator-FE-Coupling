@@ -3,7 +3,7 @@
 1. FE_full_static.py is the script to generate the ground truth using FEM to solve a linear elastic square under static loading.  
    The results are saved in folder: static_data_ground_truth.  
 
-2. Prepare_DeepONet_static.py is the script to train the Deep Operator Neural Network (DeepONet).  
+2. Prepare_DeepONet_static.py is the script to train the Physics-informed DeepONet.  
    The results are saved in folder: Pretrained_DeepONet_static.  
 
 3. FE_DeepONet_static_coupling.py is the framework which couples the FE and DeepONet to solve the linear elasticity under static loading.  
