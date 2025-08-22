@@ -317,7 +317,7 @@ mesh, cell_markers, facet_markers = gmshio.read_from_msh("full_square.msh", MPI.
 V = functionspace(mesh, ("CG", 1, (mesh.geometry.dim,)))  ###without  (mesh1.geometry.dim, ), it is a scalar space not a vector space
 tdim = mesh.topology.dim  #mesh.geometry.dim = 3 mesh.topology.dim = 2
 fdim = tdim - 1 # facet dimension
-# extract the coordinates of the mesh (every vertices of the mesh)
+# extract the coordinates of the mesh (each vertice of the mesh)
 X, Y= mesh.geometry.x[:,0], mesh.geometry.x[:,1]
 np.savetxt('X.txt', X)
 np.savetxt('Y.txt', Y)
@@ -494,7 +494,6 @@ a_new = update_a(du, u_old, v_old, a_old, ufl=True)
 v_new = update_v(a_new, u_old, v_old, a_old, ufl=True)
 ts_end = 120
 
-#for i in range(Nsteps):
 break_list=[]
 u_list, v_list, u2_list, v2_list = [], [], [], []
 
@@ -532,14 +531,9 @@ mesh.topology.create_connectivity(fdim, tdim)
 boundary_dofs = fem.locate_dofs_topological(V, fdim, top_r)
 bc_r = fem.dirichletbc(uD_r, boundary_dofs, V)
 
-
-
 bc = [bc_bt, bc_l, bc_top, bc_r]
 
 # region [M][a] = [F]
-# Confusing bug: ufl.rhs and ufl.lhs cannot find the bilinear and linear forms correctly
-# especially, when the corresponding fenicsx functions are used in elastic funcs
- 
 # find the inner square points and index 
 index_inner_square = np.where(
     ((X < center[0] + radius + 0.05 + lc*1e-4) & (X > center[0] - radius - 0.05 - lc*1e-4)) &
@@ -556,14 +550,12 @@ t=0  # initial time step
 break_list=[]
 for ts in trange(141):
     t += dt    
-    #update_pressure(t-dt)
-
     error_list = []
     u_list, v_list, u2_list, v2_list = [], [], [], []
     # Newmark time-stepping scheme
     LL = rho*ufl.inner(2*(du) / (beta * dt**2), u_)*dx + ufl.inner(sigma(du), ufl.sym(ufl.grad(u_)))*dx     
     RR = rho*ufl.inner(2*( u_old + dt * v_old) / (beta * dt**2) + (1 -  beta) / beta* a_old , u_)*dx 
-    theta = 0.5 # relaxation coefficient
+
     ## FEM 
     # assemble the matrix and vector
     a_form = fem.form(LL)
@@ -589,9 +581,6 @@ for ts in trange(141):
     # Solve linear problem
     solver.solve(b, u.x.petsc_vec)
     u.x.scatter_forward()
-
-    #u_geometry = mesh.geometry.x
-    ### atthention mesh1.geometry.x are not accurate as imagine, weired!! 
 
     u_topology, u_cell_types, u_geometry = plot.vtk_mesh(V)
     u_values = u.x.array.real
