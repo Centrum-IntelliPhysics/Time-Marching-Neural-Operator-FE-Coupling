@@ -22,7 +22,7 @@ The coupling of the two solvers is expected to leverage their complementary stre
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Application 
 ## Elasto-dynamic 
-The yellow square denotes the NO domain. The GIF below illustrates plane wave propagation within the FE and FE-NO coupling frameworks, alongside the error evolution. The error does not grow exponentially but evolves erratically, indicating the limiting influence of autoregressive error accumulation.
+The yellow square denotes the NO domain. The GIF below illustrates plane wave propagation within the FE (denoted as ground truth) and FE-NO coupling frameworks, alongside the error evolution. The error does not grow exponentially but evolves erratically, indicating the limiting influence of autoregressive error accumulation.
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 
 ## Linear elasticity and hyper elasticity
