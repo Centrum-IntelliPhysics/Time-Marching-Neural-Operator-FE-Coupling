@@ -20,7 +20,7 @@ The motivation is to establish a FE-NO coupling framework using a Schwartz alter
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Application 
 ## Elasto-dynamic 
-Note that yellow square indicates the NO domain. The below GIF shows the plane wave propagation in FE and FE-NO coupling framework, along with the error evolution versus time step. 
+Note that yellow square indicates the NO domain. The below GIF shows the plane wave propagation in FE and FE-NO coupling framework, along with the error evolution versus time step. The error is not exponentially growing while it evolves in erratic manner, demonstrating the limitating influence of autogressive error accumulation. 
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 
 ## linear elasticity and hyper elasticity
@@ -28,14 +28,15 @@ The results for linear staticity under static loading and hyper-elasticity under
 ](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading) and [hyper-elasticity quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading), respectively.
 
 # Method
-To achieve FE-NO coupling in dynamic problems, it requires both the spatial and temporal dimension coupling. The spatial coupling is achieved by a Schwartz alternating method at overlapping boundary, while the temporal coupling is achieved by Newmark-beta method integration in DeepONet. While in static or quasi-static problems, only the spatial coupling is needed. 
+To achieve FE-NO coupling in dynamic problems, it requires both the spatial and temporal dimension coupling. The spatial coupling is achieved by a Schwartz alternating method at overlapping boundary, while the temporal coupling is achieved by Newmark-beta method integration in DeepONet (i.e., time-marching DeepONet). While in static or quasi-static problems, only the spatial coupling is needed. 
 
 ## Schwartz alternating method at overlapping boundary
 ![Schwartz_alternating_method](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schwartz_alternating_method.png)
-## DeepONet structures 
-
+## Time-marching DeepONet structures 
+The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: branch1 encodes the displacement boundary condition at current time step, branch2 encodes the displacement and velocity across the domain at previous time step, and the trunk network only encodes the spatial coordinates. Such DeepONets can be directly trained by residual loss and boundary loss without additional data, bring about a physics-informed DeepONet.
 ![NO_structures](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/NO_structure.png)
 ## Time-marching workflow
+The implementation of the time-marchiing DeepONet is illustrated below:
 ![time-marching workflow](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/time-marching_workflow.png)
 
 # Content 
