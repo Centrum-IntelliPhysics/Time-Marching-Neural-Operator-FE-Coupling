@@ -1,5 +1,5 @@
 # Linear Elasticity under static loading conditions  
-Code execution order:  
+## Code execution order:  
 1. FE_full_static.py is the script to generate the ground truth of an intact linear elastic square under static loading.  
    The results are saved in folder: static_data_ground_truth.  
 
@@ -11,3 +11,4 @@ Code execution order:
      
    Note: The prerequisite for running **FE_DeepONet_static_coupling.py** is that **DeepONet_static.pkl** already exists in directory Pretrained_DeepONet_static.
    
+## results: 

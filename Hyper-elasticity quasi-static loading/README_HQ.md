@@ -1,5 +1,5 @@
 # Hyper-elasticity under quasi-static loading conditions  
-Code execution order:  
+## Code execution order:  
 1. FE_full_square_hyper.py is the script to generate the ground truth of an intact linear elastic square under static loading.  
    The results are saved in folder: static_data_ground_truth.  
 
@@ -9,3 +9,5 @@ Code execution order:
 3. FE_DeepONet_hyper_elasticity_quasi_static_coupling.py is the framework which couples the FE and DeepONet to solve the hyper-elasticity under quasi-static loading. The results are saved in folder: FE_DeepONet_hyper_elasticity_quasi_static_coupling_results.
 
    Note: The prerequisite for running **FE_DeepONet_hyper_elasticity_quasi_static_coupling.py** is that **DeepONet_hyper_elasticity_quasi_static.pkl** already exists in directory Pretrained_DeepONet_hyper_elasticity_quasi_static.
+
+## results:
