@@ -16,13 +16,13 @@ This Git repository contains codes for the '**Time-marching neural operator–FE
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
 ## Initial motivations
-The primary motivation is to establish a FE-NO coupling framework based on domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. The computational expense of the FEM stems from its need for extremely fine meshes to resolve nonlinearities. DeepONets offer an efficient alternative as pretrained, offline nonlinear mappings that impose negligible costs during simulation.
+The primary motivation is to establish a FE-NO coupling framework based on domain decomposition method to solve complex and nonlinear regions by a pretrained DeepONet, while the remainder is handled by a FEM. The computational expense of the FEM stems from its need for extremely fine meshes to resolve nonlinearities, while DeepONets offer an efficient alternative as pretrained, offline nonlinear mappings that impose negligible costs during simulation.
 
 The coupling of the two solvers are expected to significantly enhance the computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Application 
 ## Elasto-dynamic 
-Note that yellow square indicates the NO domain. The below GIF shows the plane wave propagation in FE and FE-NO coupling framework, along with the error evolution versus time step. The error is not exponentially growing while it evolves in erratic manner, demonstrating the limitating influence of autogressive error accumulation. 
+The yellow square denotes the NO domain. The GIF below illustrates plane wave propagation within the FE and coupled FE-NO frameworks, alongside the temporal evolution of the error. Although the error does not grow exponentially, it evolves erratically, demonstrating the limiting influence of autoregressive error accumulation.
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 
 ## Linear elasticity and hyper elasticity
@@ -35,7 +35,7 @@ To achieve FE-NO coupling in dynamic problems, it requires both the spatial and 
 ## Schwartz alternating method at overlapping boundary
 ![Schwartz_alternating_method](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schwartz_alternating_method.png)
 ## Time-marching DeepONet structures 
-The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be directly trained by residual loss and boundary loss without additional data, bring about a physics-informed DeepONet.
+The time-marching DeepONet structure is inspired by the Newmark-beta method, which consists of two branch networks and one trunk network: **branch1** encodes the displacement boundary condition at current time step, **branch2** encodes the displacement and velocity across the domain at previous time step, and the **trunk** network only encodes the spatial coordinates. Such DeepONets can be trained directly using residual and boundary loss functions, without requiring additional data, resulting in a physics-informed DeepONet architecture.
 ![NO_structures](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/NO_structure.png)
 ## Time-marching workflow
 The implementation of the time-marchiing DeepONet is illustrated below:
