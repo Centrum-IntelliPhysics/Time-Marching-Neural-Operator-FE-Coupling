@@ -492,7 +492,7 @@ def avg(x_old, x_new, alpha):
 # Residual
 a_new = update_a(du, u_old, v_old, a_old, ufl=True)
 v_new = update_v(a_new, u_old, v_old, a_old, ufl=True)
-ts_end = 120
+ts_end = 89
 
 break_list=[]
 u_list, v_list, u2_list, v2_list = [], [], [], []
@@ -598,7 +598,7 @@ for ts in trange(141):
     sigma_values.interpolate(expr)
     sigma_tot = sigma_values.x.array.reshape(-1,9)
     
-    '''if ts >= 89 and ts <= 140:
+    if ts >= 89 and ts <= 140:
         U_1 = U_[index_inner_square]
         V_1 = V_[index_inner_square]
         ax = a_old.x.petsc_vec.array.reshape(-1,3)[index_inner_square, 0]
@@ -618,21 +618,17 @@ for ts in trange(141):
         np.savetxt('vy ts = ' + str(ts) +'.txt', vy)
         np.savetxt('sigma_x1 ts = ' + str(ts) +'.txt', sigma_x1)
         np.savetxt('sigma_y1 ts = ' + str(ts) +'.txt', sigma_y1)
-        np.savetxt('sigma_xy1 ts = ' + str(ts) +'.txt', sigma_xy1)'''
+        np.savetxt('sigma_xy1 ts = ' + str(ts) +'.txt', sigma_xy1)
 
 
-    if ts == ts_end or ts == ts_end + 10 or ts == ts_end + 20:
+    if ts == ts_end or ts == ts_end + 10 or ts == ts_end + 20 or ts == ts_end + 30 or ts == ts_end + 40 or ts == ts_end + 50:
         plot_disp(X,Y,U_, 'displacement u ts=' + str(ts), rf'$u_{{x, \mathrm{{FE}}}}^{{{ts}}}$')
         plot_disp(X,Y,V_,'displacement v ts=' + str(ts), rf'$u_{{y, \mathrm{{FE}}}}^{{{ts}}}$')
+        plot_disp(X1, Y1, U_[index_inner_square], 'displacement u inner square ts=' + str(ts), rf'$u_{{x, \mathrm{{FE}}}}^{{{ts}}}$')
+        plot_disp(X1, Y1, V_[index_inner_square], 'displacement v inner square ts=' + str(ts), rf'$u_{{y, \mathrm{{FE}}}}^{{{ts}}}$')
         #plot_disp(X,Y,sigma_tot[:,0], 'sigma_x ts=' + str(ts), rf'$\sigma_{{x,\mathrm{{FE}}}}^{{{ts}}}$')
         #plot_disp(X,Y,sigma_tot[:,4],'sigma_y ts=' + str(ts), rf'$\sigma_{{y,\mathrm{{FE}}}}^{{{ts}}}$')
-        # save the data for interpolation to calculate the error 
-        np.savetxt('X.txt', X)
-        np.savetxt('Y.txt', Y)
-        np.savetxt('u ts=' + str(ts) + '.txt', U_)
-        np.savetxt('v ts=' + str(ts) + '.txt', V_)
-        np.savetxt('sigma_x ts=' + str(ts) + '.txt', sigma_tot[:,0])
-        np.savetxt('sigma_y ts=' + str(ts) + '.txt', sigma_tot[:,4])
+
 
 end_time= time.time()
 print('Time cost:', end_time - start_time)

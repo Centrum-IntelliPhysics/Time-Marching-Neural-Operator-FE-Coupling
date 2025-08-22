@@ -28,6 +28,7 @@ import jax.nn as jnn
 from jax.lax import conv_general_dilated as conv_lax
 from interpax import Interpolator2D
 import flax.linen as fnn
+from dynamic_utils import createFolder, plot_disp, plot_relative_error, plot_loss
 # %matplotlib inline
 
 # region neural net
@@ -858,12 +859,12 @@ if __name__ == "__main__":
     s_u_pred, s_v_pred = model.predict_s(params, u_test, v_test, y_test)
 
     # Plot
-    plot_s(X1_real, Y1_real, s_u_pred, 's_u_test1')
-    plot_s(X1_real, Y1_real, s_v_pred,'s_v_test1')
-    plot_s(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2')
-    plot_s(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2')
-    plot_s(X1_real, Y1_real, s_u_pred.flatten() - U1_new.flatten(), 's_u_test2_diff_real')
-    plot_s(X1_real, Y1_real, s_v_pred.flatten() - V1_new.flatten(), 's_v_test2_diff_real')
+    plot_disp(X1_real, Y1_real, s_u_pred, 's_u_test1', rf'$u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real, s_v_pred,'s_v_test1',rf'$v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2', rf'$u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2', rf'$v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}}$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 's_u_test2_diff_real',rf'$|u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 's_v_test2_diff_real',rf'$|v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{113}}} - v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{113}}}|$')
     
 
      

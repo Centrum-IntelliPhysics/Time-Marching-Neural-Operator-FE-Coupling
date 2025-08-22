@@ -1,8 +1,15 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import numpy as np
-
+import os
 # region utils 
+def createFolder(folder_name):
+    try:
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+    except OSError:
+        print ('Error: Creating folder. ' +  folder_name)
+
 #utils 
 def plot_disp(X, Y, u, foldername, title):
     '''
@@ -119,7 +126,33 @@ def plot_disp_real(X, Y, u, foldername, title):
     plt.show()
     plt.close()
 
+def plot_loss(loss_bcs_log, loss_res_log):
 
+    fig, ax = plt.subplots(figsize=(10, 8.5))
+    ax.plot(np.arange(len(loss_bcs_log)) * 1e3 ,loss_bcs_log, lw=2, label='bcs')
+    ax.plot(np.arange(len(loss_bcs_log)) * 1e3 ,loss_res_log, lw=2, label='res')
+
+    plt.xlabel('Iteration', fontsize=32)
+    plt.ylabel('Loss', fontsize=32)
+    plt.yscale('log')
+    plt.legend(
+        loc='upper right', bbox_to_anchor=(0.95, 1), frameon=False, fontsize=36
+    )
+    # Adjust tick size and font size
+    ax.tick_params(axis='both', which='major', labelsize=32, length=10, width=2)  # Major ticks
+    ax.tick_params(axis='both', which='minor', labelsize=32, length=5, width=1)  # Minor ticks
+
+    formatter = ScalarFormatter(useMathText=True)
+    formatter.set_scientific(True)
+    formatter.set_powerlimits((0, 0)) 
+    ax.xaxis.set_major_formatter(formatter)
+    plt.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
+    ax.xaxis.get_offset_text().set_fontsize(32)
+
+    plt.tight_layout()
+    plt.savefig('loss' + ".jpg", dpi=700)
+    plt.show()
+    plt.close()
 
 
 def plot_error_list(error_list, foldername):

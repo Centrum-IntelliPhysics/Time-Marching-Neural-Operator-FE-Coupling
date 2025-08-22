@@ -1,7 +1,7 @@
 # Elasto-dynamic conditions  
 ## Code execution order:  
-1. FE_full_square_hyper.py is the script to generate the ground truth of an intact linear elastic square under static loading.  
-   The results are saved in folder: static_data_ground_truth.  
+1. FE_full_elasto_dynamics.py is the script to generate the ground truth of an intact linear elastic square under static loading.  
+   The results are saved in folder: FE_full_elasto_dynamic_ground_truth.  
 
 2. Prepare_DeepONet_hyper_elastic_quasi_static.py is the script to train the Deep Operator Neural Network (DeepONet).  
    The results are saved in folder: Pretrained_DeepONet_hyper_elastic_quasi_static.  

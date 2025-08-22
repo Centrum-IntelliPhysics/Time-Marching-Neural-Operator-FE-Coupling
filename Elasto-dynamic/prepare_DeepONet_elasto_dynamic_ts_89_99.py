@@ -28,7 +28,7 @@ import jax.nn as jnn
 from jax.lax import conv_general_dilated as conv_lax
 from interpax import Interpolator2D
 import flax.linen as fnn
-from dyanmic_utils import createFolder, plot_disp, plot_relative_error, plot_loss, plot_bc
+from dynamic_utils import createFolder, plot_disp, plot_relative_error, plot_loss
 # %matplotlib inline
 
 # region neural net
@@ -88,7 +88,7 @@ def init_cnn_params(p, key=random.PRNGKey(0)):
     """
     key1, key2, key3, key4, key5 = random.split(key, 5)
     out_put_channels = 4
-    # Conv1: (3,3,4,6) - input has 4 channels, 6 output filters ### error maybe 
+    # Conv1: (3,3,4,6) - input has 4 channels, 6 output filters  
     # 4 channels for u v vx vy in the previous step 
     conv1_w = random.normal(key1, (3, 3, 4, out_put_channels)) * 0.1
     conv1_b = random.normal(key2, (out_put_channels,)) * 0.1                               
@@ -162,7 +162,6 @@ def BranchNet_dil(params, x):
 class PI_DeepONet:
     def __init__(self, branch_layers_1, trunk_layers, **ela_model):
         # Network initialization and evaluation functions
-        #2 branch networks and 1 trunk network
         self.branch_init_1, self.branch_apply_1 = MLP(branch_layers_1, activation=np.tanh)
         self.trunk_init, self.trunk_apply = MLP(trunk_layers, activation=np.tanh)
         self.branch_apply = BranchNet_dil
@@ -577,131 +576,70 @@ def generate_one_training_data(key, P, Q, N):
     return u_train, v_train,h_train, s_u_train, \
             s_v_train, u_r_train, v_r_train, h_r_train, s_r_train, h_train_l
 
+# Used in CNN parts 
+nx1 = 82
+m = nx1
 
-# region test data
-# Geneate test data corresponding to one input sample
-def generate_one_test_data(key, P):
-    Nx = P
-    Ny = P
-    u_c, v_c, u_c_p, v_c_p, u_c_n, v_c_n = generate_training_data(key, Nx , Ny, P, length_scale)
-    # choose the 0 interval solution to predict 
-    u_l = u_c_n
-    v_l = v_c_p
-
-    theta = np.linspace(0, 2 * np.pi, P)
-    r = np.linspace(0, radius, P)
-    T, R = np.meshgrid(theta, r)
-    XX = center[0] + R * np.cos(T)
-    YY = center[1] + R * np.sin(T)
-
-    u_test = np.hstack([u_l, v_l])
-    v_test = np.hstack([u_l, v_l])
-    h_test = np.hstack([XX.flatten()[:,None], YY.flatten()[:,None]]) ### because XX TT shape = P**2 transform them to (P**2,1) for h_stack (P**2,2)
-
-    return u_test, v_test, h_test
-
-# Geneate training data corresponding to N input sample
-def generate_training_data(key, N, P, Q):
-    config.update("jax_enable_x64", True)
-    u_train, v_train, h_train, s_u_train, s_v_train, u_r_train, v_r_train,\
-                         h_r_train, s_r_train, h_train_l = generate_one_training_data(key, P, Q ,N)
-
-    u_train = np.float32(u_train.reshape(N ,-1))  #turn to be (N, 4*m1 + 2*4*m)
-    v_train = np.float32(v_train.reshape(N ,-1)) 
-    h_train = np.float32(h_train.reshape(N ,-1, 2))
-    s_u_train = np.float32(s_u_train.reshape(N,-1))
-    s_v_train = np.float32(s_v_train.reshape(N,-1))
-    u_r_train = np.float32(u_r_train.reshape(N ,-1))
-    v_r_train = np.float32(v_r_train.reshape(N ,-1))
-    h_r_train = np.float32(h_r_train.reshape(N , -1 ,2))
-    
-    s_r_train = np.float32(s_r_train.reshape(N ,-1))
-
-    config.update("jax_enable_x64", False)
-    return     u_train, v_train,h_train, s_u_train, \
-    s_v_train, u_r_train, v_r_train, h_r_train, s_r_train
-    
-# Geneate test data corresponding to N input sample
-def generate_test_data(key, N, P):
-
-    config.update("jax_enable_x64", True)
-    keys = random.split(key, N)
-    keys = keys[0]
-    u_test, v_test, y_test = generate_one_test_data(keys, P)
-    u_test = np.float32(u_test.reshape(N ,-1))
-    v_test = np.float32(v_test.reshape(N ,-1))
-    y_test = np.float32(y_test.reshape(N * P**2 ,-1))
-
-    config.update("jax_enable_x64", False)
-    return u_test, v_test, y_test
-    #return np.zeros(u_test.shape), y_test
-
-# region save path 
-originalDir = '/nfsv4/21040463r/FEM_DeepONet_final_results/FEM_DeepONet_elasto_dynamic'
-os.chdir(os.path.join(originalDir))
-foldername = 'prepare_DeepONet_disk_dynamic_square_square_89_99'
-createFolder(foldername)
-os.chdir(os.path.join(originalDir, './' + foldername + '/'))
-originalDir_real = os.path.join(originalDir, './' + foldername + '/')
-
-os.chdir(os.path.join(originalDir, './' + 'dataload_from_full_square_dataset_89_99' + '/'))
-# GRF length scale
-length_scale = [1, 0.4] #0.2 for symetric RBF big length_scale
-import numpy as npr 
-# Resolution of the solution
-center = (0.0, 0.5, 0.0)  # Center of the circle
-radius = 0.3             # Radius of the circle
-X1 = npr.loadtxt('X1.txt')
-Y1 = npr.loadtxt('Y1.txt')
-index_up = np.where(np.isclose(Y1, center[1] + (radius + 0.05)))[0]
-index_down = np.where(np.isclose(Y1, center[1] - (radius + 0.05)))[0]
-index_left = np.where(np.isclose(X1, center[0] - (radius + 0.05)))[0]
-index_right = np.where(np.isclose(X1, center[0] + (radius + 0.05)))[0]
-
-# resort the sequence of the index (easy for the following application in coupling)
-remix_down = np.argsort(X1[index_down])
-remix_up = np.argsort(X1[index_up])
-remix_left = np.argsort(Y1[index_left])
-remix_right = np.argsort(Y1[index_right])
-
-index_up = index_up[remix_up]
-index_down = index_down[remix_down]
-index_left = index_left[remix_left]
-index_right = index_right[remix_right]
-
-nx1 = index_up.shape[0]
-nx2 = index_up.shape[0]
-
-m_s = nx1 * nx2 # number of sensors in the square
-Nx = nx1
-Ny = nx2
-d = 2
-N = 1000 # number of input samples
-m = nx1 # number of input sensors
-P_train = m # number of output sensors, 100 for each side
-Q_train = 400 #400  # number of collocation points for each input sample
-
-
-#nemark method
-beta = 1
-# Time-stepping parameters
-T       = 4.0
-Nsteps  = 1e4
-dt =  T/Nsteps
-
-
-# region main 
-# transform the disk to square (disk insert in the square)
-X = np.linspace(center[0]-radius-0.05, center[0]+radius+0.05, nx1)
-Y = np.linspace(center[1]-radius-0.05, center[1]+radius+0.05, nx2)
-X1_, Y1_ = np.meshgrid(X, Y)
-# let the out disk data be zero
-
-os.chdir(originalDir_real)
 
 if __name__ == "__main__":
-    
-    # the coefficient means a lot? 
+    # region save path 
+    originalDir = os.getcwd()
+    os.chdir(os.path.join(originalDir))
+    foldername = 'prepare_DeepONet_Elasto_dynamic_square_square_89_99'
+    createFolder(foldername)
+    os.chdir(os.path.join(originalDir, './' + foldername + '/'))
+    originalDir_real = os.path.join(originalDir, './' + foldername + '/')
+
+    os.chdir(os.path.join(originalDir, './' + 'FE_full_elasto_dynamic_ground_truth' + '/'))
+    # GRF length scale
+    length_scale = [1, 0.4] #0.2 for symetric RBF big length_scale
+    import numpy as npr 
+    # Resolution of the solution
+    center = (0.0, 0.5, 0.0)  # Center of the circle
+    radius = 0.3             # Radius of the circle
+    X1 = npr.loadtxt('X1.txt')
+    Y1 = npr.loadtxt('Y1.txt')
+    index_up = np.where(np.isclose(Y1, center[1] + (radius + 0.05)))[0]
+    index_down = np.where(np.isclose(Y1, center[1] - (radius + 0.05)))[0]
+    index_left = np.where(np.isclose(X1, center[0] - (radius + 0.05)))[0]
+    index_right = np.where(np.isclose(X1, center[0] + (radius + 0.05)))[0]
+
+    # resort the sequence of the index (easy for the following application in coupling)
+    remix_down = np.argsort(X1[index_down])
+    remix_up = np.argsort(X1[index_up])
+    remix_left = np.argsort(Y1[index_left])
+    remix_right = np.argsort(Y1[index_right])
+
+    index_up = index_up[remix_up]
+    index_down = index_down[remix_down]
+    index_left = index_left[remix_left]
+    index_right = index_right[remix_right]
+
+    nx1 = index_up.shape[0]
+    nx2 = index_up.shape[0]
+
+    m_s = nx1 * nx2 # number of sensors in the square
+    Nx = nx1
+    Ny = nx2
+    d = 2
+    N = 1000 # number of input samples
+    m = nx1 # number of input sensors
+    P_train = m # number of output sensors, 100 for each side
+    Q_train = 400 #400  # number of collocation points for each input sample
+
+    #nemark method
+    beta = 1
+    # Time-stepping parameters
+    T       = 4.0
+    Nsteps  = 1e4
+    dt =  T/Nsteps
+    # region main 
+    # transform the disk to square (disk insert in the square)
+    X = np.linspace(center[0]-radius-0.05, center[0]+radius+0.05, nx1)
+    Y = np.linspace(center[1]-radius-0.05, center[1]+radius+0.05, nx2)
+    X1_, Y1_ = np.meshgrid(X, Y)
+
+    os.chdir(originalDir_real)
     ### define the elastic model 
     ela_model = dict()
     ela_model['E'] = 1000e-8 #1000 
@@ -724,25 +662,20 @@ if __name__ == "__main__":
     
     #res_dataset = DataGenerator(u_res_train, v_res_train, h_res_train, s_res_train, s_res_train, batch_size)
     
-    # batch_size big is more accurate. 
-    
-    #bcs_dataset = inputs, outputs   
-    #inputs = (u, y) #outputs = s
-    
+
     # Train
     #model.train(bcs_dataset, res_dataset, nIter=1000000)
     
     # Test data
-    #N_test = 100 # number of input samples
     P_test = m   # number of sensors
     
     # region prediction 
     # Predict
-    with open('DeepONet_DR_89_99_retest.pkl', 'rb') as f:
+    with open('DeepONet_ED_89_99.pkl', 'rb') as f:
         params = pickle.load(f)
         
     '''params = model.get_params(model.opt_state)
-    with open('DeepONet_DR_89_99_retest.pkl', 'wb') as f:
+    with open('DeepONet_ED_89_99.pkl', 'wb') as f:
         pickle.dump(params, f)
 
 
@@ -750,7 +683,7 @@ if __name__ == "__main__":
     plot_loss(model.loss_bcs_log, model.loss_res_log)'''
 
     #real test   
-    os.chdir(os.path.join(originalDir, './' + 'FE_full_square_square_elasto_dynamic_data_set_ts_89_139' + '/'))
+    os.chdir(os.path.join(originalDir, './' + 'FE_full_elasto_dynamic_ground_truth' + '/'))
     
  
     import numpy as npr # jnp donesn't have loadtxt
@@ -762,8 +695,8 @@ if __name__ == "__main__":
     V1 = npr.loadtxt('V1 ts = 91.txt')
     U1_new = npr.loadtxt('U1 ts = 92.txt')
     V1_new = npr.loadtxt('V1 ts = 92.txt')
-    vx = npr.loadtxt('vx ts = 91.txt')/100
-    vy = npr.loadtxt('vy ts = 91.txt')/100
+    vx = npr.loadtxt('vx ts = 91.txt')/100 # for nomalization velocity should be divided by 100 (as input for CNN)
+    vy = npr.loadtxt('vy ts = 91.txt')/100 # for nomalization velocity should be divided by 100 (as input for CNN)
 
     index_right_real = np.concatenate([
     np.where((Y1_real == y_val) & (X1_real == x_val))[0]
@@ -805,28 +738,16 @@ if __name__ == "__main__":
     u_test =np.hstack([U1_d.reshape(1,-1), V1_d.reshape(1,-1), vx_d.reshape(1,-1), vy_d.reshape(1,-1), u_bc.reshape(1,-1), v_bc.reshape(1,-1)]) 
     v_test =np.hstack([U1_d.reshape(1,-1), V1_d.reshape(1,-1), vx_d.reshape(1,-1), vy_d.reshape(1,-1), u_bc.reshape(1,-1), v_bc.reshape(1,-1)])
       
-    #y_test = np.hstack([XX.flatten()[:,None], YY.flatten()[:,None]])
     y_test = np.hstack([X1_real.reshape(-1,1), Y1_real.reshape(-1,1)])
     s_u_pred, s_v_pred = model.predict_s(params, u_test, v_test, y_test)
 
     # Plot
-    plot_disp(X1_real, Y1_real, s_u_pred, 's_u_test1', rf'$u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
-    plot_disp(X1_real, Y1_real, s_v_pred,'s_v_test1',rf'$v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
-    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 's_u_test2', rf'$u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
-    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 's_v_test2', rf'$v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 's_u_test2_diff_real',rf'$|u_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - u_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
-    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 's_v_test2_diff_real',rf'$|v_{{\mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - v_{{\mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
-    
-
-     
-    
-#main_test('DeepONet_elastic_0803_ul_vl_both_100_error')
-
-# N is not higher better
-
-
-
-
+    plot_disp(X1_real, Y1_real, s_u_pred, 'u_x_pred', rf'$u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real, s_v_pred,'u_y_pred',rf'$u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real,  U1_new.flatten(), 'u_x_truth', rf'$u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_disp(X1_real, Y1_real,  V1_new.flatten(), 'u_y_truth', rf'$u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{92}}}$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_u_pred.flatten() - U1_new.flatten()), 'u_x_error',rf'$|u_{{x, \mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - u_{{x, \mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
+    plot_relative_error(X1_real, Y1_real, np.abs(s_v_pred.flatten() - V1_new.flatten()), 'u_y_error',rf'$|u_{{y, \mathrm{{FE}},\Omega_{{II}}}}^{{{92}}} - u_{{y, \mathrm{{NO}},\Omega_{{II}}}}^{{{92}}}|$')
 
 
 

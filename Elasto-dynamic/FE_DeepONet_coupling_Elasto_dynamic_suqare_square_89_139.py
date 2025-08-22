@@ -31,7 +31,7 @@ import logging
 import pickle
 from jax import random
 from matplotlib.ticker import ScalarFormatter
-from dynamic_utils import plot_disp, plot_disp_real, plot_error_list, plot_mesh, plot_boundary
+from dynamic_utils import plot_disp, plot_disp_real, plot_mesh, plot_boundary
 
 ###############Attention##################
 # the Dofinx 0.9.0 version is used in this code
@@ -1126,7 +1126,7 @@ v_old2 = Function(V2)
 a_old2 = Function(V2)
 
 # region DeepONet 
-from prepare_DeepONet_Elasto_dynamic_square_square_99_109 import PI_DeepONet
+from prepare_DeepONet_Elasto_dynamic_ts_99_109 import PI_DeepONet
 
 
 m = num_points1 + 2
