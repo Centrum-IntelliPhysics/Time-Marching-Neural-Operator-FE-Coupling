@@ -1,6 +1,6 @@
 # Hyper-elasticity under quasi-static loading conditions  
 ## Code execution order:  
-1. FE_full_square_hyper.py is the script to generate the ground truth of an intact linear elastic square under static loading.  
+1. FE_full_square_hyper.py is the script to generate the ground truth for hyper-elastic square under static loading by FEM.  
    The results are saved in folder: static_data_ground_truth.  
 
 2. Prepare_DeepONet_hyper_elastic_quasi_static.py is the script to train the Deep Operator Neural Network (DeepONet).  
