@@ -14,4 +14,4 @@
 ## results: 
 ![Linear-elastic_static_loadings_u_x](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Linear%20Elasticity%20Static%20loading/readme_figures_LE/Fig.4_linear_static_coupling_u.jpg)
 
-![Linear-elastic_static_loadings_u_y](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Linear%20Elasticity%20Static%20loading/readme_figures_LE/Fig.5_linear_static_coupling_u.jpg)
+![Linear-elastic_static_loadings_u_y](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Linear%20Elasticity%20Static%20loading/readme_figures_LE/Fig.5_linear_static_coupling_v.jpg)
