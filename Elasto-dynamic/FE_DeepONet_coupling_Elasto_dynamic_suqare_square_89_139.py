@@ -50,7 +50,7 @@ def createFolder(folder_name):
 originalDir = os.getcwd()
 os.chdir(os.path.join(originalDir))
 
-foldername = 'FE_DeepONet_coupling_elsto_dynamic_suqare_square_89_139_vmax_vmin'  
+foldername = 'FE_DeepONet_coupling_elasto_dynamic_suqare_square_89_139_vmax_vmin'  
 createFolder(foldername )
 os.chdir(os.path.join(originalDir, './'+ foldername + '/'))
  
