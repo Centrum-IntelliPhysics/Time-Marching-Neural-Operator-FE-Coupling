@@ -666,7 +666,6 @@ if __name__ == "__main__":
     ela_model['E'] = 1000e-8 #1000 
     ela_model['nu'] = 0.3 
     ela_model['rho'] = 5e-8 #5
-    #os.chdir('/nfsv4/21040463r/PINN/DeepONet_DR_no_ADR_to_ul_ur_vl_vr_test_rerun_0731_uxy_elastic')
     
     key = random.PRNGKey(0)
     #u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, u_res_train, \
