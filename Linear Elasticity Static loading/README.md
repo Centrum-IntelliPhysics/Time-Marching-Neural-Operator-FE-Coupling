@@ -1,13 +1,13 @@
 # Linear Elasticity under static loading conditions  
 ## Code execution order:  
-1. FE_full_static.py is the script to generate the ground truth for a linear elastic square under static loading by FEM.  
-   The results are saved in folder: static_data_ground_truth.  
+1. `FE_full_static.py is` the script to generate the ground truth for a linear elastic square under static loading by FEM.  
+   The results are saved in folder: `static_data_ground_truth`.  
 
-2. Prepare_DeepONet_static.py is the script to train the Physics-informed DeepONet.  
-   The results are saved in folder: Pretrained_DeepONet_static.  
+2. `Prepare_DeepONet_static.py` is the script to train the Physics-informed DeepONet.  
+   The results are saved in folder: `Pretrained_DeepONet_static`.  
 
-3. FE_DeepONet_static_coupling.py is the framework which couples the FE and DeepONet to solve the linear elasticity under static loading.  
-   The results are saved in folder: FE_DeepONet_static_coupling_results.
+3. `FE_DeepONet_static_coupling.py` is the framework which couples the FE and DeepONet to solve the linear elasticity under static loading.  
+   The results are saved in folder: `FE_DeepONet_static_coupling_results`.
      
    Note: The prerequisite for running **FE_DeepONet_static_coupling.py** is that **DeepONet_static.pkl** already exists in directory Pretrained_DeepONet_static.
    
