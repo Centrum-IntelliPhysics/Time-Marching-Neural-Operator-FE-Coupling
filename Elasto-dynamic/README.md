@@ -1,6 +1,6 @@
 # Elasto-dynamic conditions  
 ## Code execution order:  
-1. FE_full_elasto_dynamics.py is the script to generate the ground truth of an linear elastic square under static loading by FEM.  
+1. 'print(FE_full_elasto_dynamics.py)' is the script to generate the ground truth of an linear elastic square under static loading by FEM.  
    The results are saved in folder: FE_full_elasto_dynamic_ground_truth.  
 
 2. prepare_DeepONet_elasto_dynamic_ts_ts0_ts1.py is the script to train DeepONet for different time intervals [ $ts_0$, $ts_1$].  
