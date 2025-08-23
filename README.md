@@ -95,4 +95,4 @@ For more information or questions please contact:
 The FE-NO coupling framework is currently under development. We warmly welcome any suggestions and feedback, and we are open to collaborating with researchers from diverse fields!
 
 # Data Availability 
-[Elasto_dynamic_dataset](https://livejohnshopkins-my.sharepoint.com/:f:/g/personal/wwang198_jh_edu/EpQ_n3R5_BJEi4dONwKmt6gBfWgHTd4Z-lShL8qXFKHgJQ?e=QSmSQ7)
+To train the DeepONet in elasto-dynamic, some data are used as provided in [Elasto_dynamic_dataset](https://livejohnshopkins-my.sharepoint.com/:f:/g/personal/wwang198_jh_edu/EpQ_n3R5_BJEi4dONwKmt6gBfWgHTd4Z-lShL8qXFKHgJQ?e=QSmSQ7).
