@@ -67,6 +67,19 @@ CUDA version:
 pip install --upgrade "jax[cuda12]"
 </code></pre>  
 
+Version:
+<pre><code>Python 3.9.22
+jax                           0.4.30
+jax-cuda12-pjrt               0.4.30
+jax-cuda12-plugin             0.4.30
+jaxlib                        0.4.30
+jaxtyping                     0.2.36
+fenics-basix                  0.9.0
+fenics-dolfinx                0.9.0
+fenics-ffcx                   0.9.0
+fenics-ufl                    2024.2.0
+</code></pre>
+
 
 
 # Citation 
