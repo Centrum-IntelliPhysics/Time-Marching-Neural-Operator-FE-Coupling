@@ -49,7 +49,7 @@ In this respository, we provide the codes for the following problems:
 - [Linear elasticity under static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading)
 - [Hyper-elasticity under quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading)
 
-Each problem folder contains 'FE_full' file to run the standalone FEM simulation, 'prepare_DeepONet' file to train the specific DeepONet, 'FE_DeepONet' file to run the FE-NO coupling simulation, and 'README.md' file to provide the execution order of the codes and the simulation results.
+Each problem folder contains `FE_full` file to run the standalone FEM simulation, `prepare_DeepONet` file to train the specific DeepONet, `FE_DeepONet` file to run the FE-NO coupling simulation, and `README.md` file to provide the execution order of the codes and the simulation results.
 
 # Get started  
 Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (an FEM solver)   
