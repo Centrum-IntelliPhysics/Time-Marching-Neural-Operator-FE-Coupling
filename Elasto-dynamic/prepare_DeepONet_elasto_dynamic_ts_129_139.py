@@ -671,8 +671,8 @@ if __name__ == "__main__":
     ela_model['rho'] = 5e-8 #5
     
     key = random.PRNGKey(0)
-    #u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, u_res_train, \
-    #    v_res_train, h_res_train, s_res_train= generate_training_data(key, N, P_train, Q_train)
+    u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, u_res_train, \
+        v_res_train, h_res_train, s_res_train= generate_training_data(key, N, P_train, Q_train)
    
     # Initialize model
     branch_layers_1 =  [2*4*m, 100, 100, 100, 100, 800]
@@ -681,29 +681,29 @@ if __name__ == "__main__":
     
     # Create data set
     batch_size =  100 #10000
-    #bcs_dataset = DataGenerator(u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, batch_size)
+    bcs_dataset = DataGenerator(u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, batch_size)
     
-    #res_dataset = DataGenerator(u_res_train, v_res_train, h_res_train, s_res_train, s_res_train, batch_size)
+    res_dataset = DataGenerator(u_res_train, v_res_train, h_res_train, s_res_train, s_res_train, batch_size)
     
 
     # Train
-    #model.train(bcs_dataset, res_dataset, nIter=1000000)
+    model.train(bcs_dataset, res_dataset, nIter=1000000)
     
     # Test data
     P_test = m   # number of sensors
     
     # region prediction 
     # Predict
-    with open('DeepONet_ED_129_139.pkl', 'rb') as f:
-        params = pickle.load(f)
+    '''with open('DeepONet_ED_129_139.pkl', 'rb') as f:
+        params = pickle.load(f)'''
         
-    '''params = model.get_params(model.opt_state)
+    params = model.get_params(model.opt_state)
     with open('DeepONet_ED_129_139.pkl', 'wb') as f:
         pickle.dump(params, f)
 
 
     #Plot for loss function
-    plot_loss(model.loss_bcs_log, model.loss_res_log)'''
+    plot_loss(model.loss_bcs_log, model.loss_res_log)
 
     #real test   
     os.chdir(os.path.join(originalDir, './' + 'FE_full_elasto_dynamic_ground_truth' + '/'))
