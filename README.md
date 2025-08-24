@@ -68,7 +68,7 @@ pip install --upgrade "jax[cuda12]"
 </code></pre>  
 
 Version:
-<pre><code>Python             3.9.22
+<pre><code>Python                        3.9.22
 jax                           0.4.30
 jax-cuda12-pjrt               0.4.30
 jax-cuda12-plugin             0.4.30
