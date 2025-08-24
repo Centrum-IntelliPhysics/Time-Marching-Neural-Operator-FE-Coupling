@@ -1,7 +1,7 @@
 # Table of Content 
 -[General information](#general-information)
 
--[Application](#application)
+-[Applications](#applications)
 
 -[Method](#Method)
 
@@ -22,7 +22,7 @@ The primary motivation is to establish an FE-NO coupling framework based on the 
 
 The coupling of the two solvers is expected to leverage their complementary strengths, leading to a significant enhancement in computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
-# Application 
+# Applications 
 ## Elasto-dynamic 
 The yellow square denotes the NO domain. The GIF below illustrates plane wave propagation within the FE (denoted as ground truth) and FE-NO coupling frameworks, alongside the error evolution. The error does not grow exponentially but evolves erratically, indicating the limiting influence of autoregressive error accumulation.
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
@@ -52,7 +52,7 @@ In this respository, we provide the codes for the following problems:
 Each problem folder contains 'FE_full' file to run the standalone FEM simulation, 'prepare_DeepONet' file to train the specific DeepONet, 'FE_DeepONet' file to run the FE-NO coupling simulation, and 'README.md' file to provide the excutation order of the codes and the simulation results.
 
 # Get started  
-Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (a FEM solver)   
+Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (an FEM solver)   
 Conda install:
 <pre><code>conda create -n fenicsx-env
 conda activate fenicsx-env
