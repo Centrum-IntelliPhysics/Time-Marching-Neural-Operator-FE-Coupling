@@ -18,17 +18,17 @@ This Git repository contains codes for the '**Time-marching neural operator–FE
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
 ## Initial motivations
-The primary motivation is to establish an FE-NO coupling framework based on the domain decomposition method. This framework employs a pretrained DeepONet to resolve complex, nonlinear subdomains, while the Finite Element Method (FEM) handles the remainder. Capturing highly nonlinear behaviors with the FEM is computationally expensive, as it necessitates extremely fine meshes. DeepONets, however, are nonlinear mappings that can be pretrained offline, making their computational cost during simulation negligible.
+The primary objective is to develop an FE–NO coupling framework using domain decomposition framework. In this framework, a pretrained deep operator network (DeepONet) is employed to efficiently resolve complex, nonlinear subdomains specifically replacing the locations where fine meshes are requires, while the Finite Element Method (FEM) handles the remaining regions. Capturing strongly nonlinear behaviors with FEM alone is computationally expensive. In contrast, DeepONet represent nonlinear mappings that can be pretrained offline, making their evaluation during simulation essentially negligible in cost. In this work, the DeepONet is trained with the physics of the system only (no data is used).
 
 The coupling of the two solvers is expected to leverage their complementary strengths, leading to a significant enhancement in computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
 # Applications 
 ## Elasto-dynamic 
-The yellow square denotes the NO domain. The GIF below illustrates plane wave propagation within the FE (denoted as ground truth) and FE-NO coupling frameworks, alongside the error evolution. The error does not grow monotonically but fluctuates within bounds (2.5%), indicating the limiting influence of autoregressive error accumulation.
+The yellow square marks the NO domain. The GIF below illustrates plane wave propagation in both the FE framework (serving as the ground truth) and the FE–NO coupling framework, along with the corresponding error evolution. The error remains bounded (within 2.5%) and does not grow monotonically; instead, it fluctuates, suggesting a limiting effect on autoregressive error accumulation.
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 
 ## Linear elasticity and hyper elasticity
-The results for linear elasticity under static loading and hyper-elasticity under quasi-static loading are shown in folder [linear elasticity static loading
+The results for linear elasticity under static loading and hyperelasticity under quasi-static loading are provided in the folder [linear elasticity static loading
 ](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading) and [hyper-elasticity quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading), respectively.
 
 # Methods
