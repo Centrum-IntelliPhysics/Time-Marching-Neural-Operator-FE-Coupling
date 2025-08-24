@@ -101,9 +101,9 @@ abstract = {Numerical solvers for partial differential equations (PDEs) often st
 # Contact 
 For more information or questions please contact: 
 
--[Wei Wang@jh.edu](mailto:wwang198@jh.edu)
+-[Wei Wang](mailto:wwang198@jh.edu)
 
--[Somdatta Goswami@jhu.edu](mailto:somdatta@jhu.edu)
+-[Somdatta Goswami](mailto:somdatta@jhu.edu)
 
 The FE-NO coupling framework is currently under development. We warmly welcome any suggestions and feedback, and we are open to collaborating with researchers from diverse fields!
 
