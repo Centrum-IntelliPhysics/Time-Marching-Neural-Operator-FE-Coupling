@@ -36,6 +36,8 @@ Each problem folder contains `FE_full` file to run the standalone FEM simulation
 The yellow square marks the NO domain. The GIF below illustrates plane wave propagation in both the FE framework (serving as the ground truth) and the FE–NO coupling framework, along with the corresponding error evolution. The error remains bounded (within 2.5%) and does not grow monotonically; instead, it fluctuates, suggesting a limiting effect on autoregressive error accumulation.
 ![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
 
+To train the DeepONet in elasto-dynamic, some data should be used, as provided in [Elasto_dynamic_dataset](https://livejohnshopkins-my.sharepoint.com/:f:/g/personal/wwang198_jh_edu/EpQ_n3R5_BJEi4dONwKmt6gBfWgHTd4Z-lShL8qXFKHgJQ?e=QSmSQ7).
+
 ## Linear elasticity and hyper elasticity
 The results for linear elasticity under static loading and hyperelasticity under quasi-static loading are provided in the folder [linear elasticity static loading
 ](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading) and [hyper-elasticity quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading), respectively.
@@ -69,8 +71,6 @@ fenics-ffcx                   0.9.0
 fenics-ufl                    2024.2.0
 </code></pre>
 
-
-
 # Citation 
 If you find this Github repository useful for your work, please consider citing this work:
 <pre><code>@article{WANG2025118319,
@@ -88,11 +88,8 @@ author = {Wei Wang and Maryam Hakimzadeh and Haihui Ruan and Somdatta Goswami}
 # Contact 
 For more information or questions please contact: 
 
--[Wei Wang](mailto:wwang198@jh.edu)
+- [Wei Wang](mailto:wwang198@jh.edu)
 
--[Somdatta Goswami](mailto:somdatta@jhu.edu)
+- [Somdatta Goswami](mailto:somdatta@jhu.edu)
 
-The FE-NO coupling framework is currently under development. We warmly welcome any suggestions and feedback, and we are open to collaborating with researchers from diverse fields!
-
-# Data Availability 
-To train the DeepONet in elasto-dynamic, some data should be used, as provided in [Elasto_dynamic_dataset](https://livejohnshopkins-my.sharepoint.com/:f:/g/personal/wwang198_jh_edu/EpQ_n3R5_BJEi4dONwKmt6gBfWgHTd4Z-lShL8qXFKHgJQ?e=QSmSQ7).
+The FE-NO coupling framework is currently being explored for large scale realistic problems in the domains of engineering and life sciences. We warmly welcome any suggestions and feedback, and we are open to collaborating with researchers from diverse fields!
