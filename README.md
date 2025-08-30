@@ -11,14 +11,6 @@ The primary objective is to develop an FE–NO coupling framework using domain d
 
 The coupling of the two solvers is expected to leverage their complementary strengths, leading to a significant enhancement in computational efficiency and robustness while maintaining solution accuracy.
 ![schematic_DD](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/Schematic_domain_decomposition.png)
-# Applications 
-## Elasto-dynamic 
-The yellow square marks the NO domain. The GIF below illustrates plane wave propagation in both the FE framework (serving as the ground truth) and the FE–NO coupling framework, along with the corresponding error evolution. The error remains bounded (within 2.5%) and does not grow monotonically; instead, it fluctuates, suggesting a limiting effect on autoregressive error accumulation.
-![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
-
-## Linear elasticity and hyper elasticity
-The results for linear elasticity under static loading and hyperelasticity under quasi-static loading are provided in the folder [linear elasticity static loading
-](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading) and [hyper-elasticity quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading), respectively.
 
 # Methods
 To achieve FE-NO coupling in dynamic problems, it requires both the spatial and temporal dimension coupling. The spatial coupling is achieved by a Schwarz alternating method at overlapping boundary, while the temporal coupling is achieved by Newmark-beta method integrated DeepONet (i.e., time-marching DeepONet). While in static or quasi-static problems, only the spatial coupling is needed. 
@@ -32,13 +24,21 @@ The time-marching DeepONet structure is inspired by the Newmark-beta method, whi
 The implementation of the time-marching DeepONet coupled with numerical solver is illustrated below:
 ![time-marching workflow](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Readme_figures/time-marching_workflow.png)
 
-# Content 
+# Applications 
 In this respository, we provide the codes for the following problems:
 - [Elasto-dynamic](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Elasto-dynamic)
 - [Linear elasticity under static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading)
 - [Hyper-elasticity under quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading)
 
 Each problem folder contains `FE_full` file to run the standalone FEM simulation, `prepare_DeepONet` file to train the specific DeepONet, `FE_DeepONet` file to run the FE-NO coupling simulation, and `README.md` file to provide the execution order of the codes and the simulation results.
+
+## Elasto-dynamic 
+The yellow square marks the NO domain. The GIF below illustrates plane wave propagation in both the FE framework (serving as the ground truth) and the FE–NO coupling framework, along with the corresponding error evolution. The error remains bounded (within 2.5%) and does not grow monotonically; instead, it fluctuates, suggesting a limiting effect on autoregressive error accumulation.
+![elasto_dynamic_results](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/blob/main/Elasto-dynamic/Elasto_dynamic_GIF.gif)
+
+## Linear elasticity and hyper elasticity
+The results for linear elasticity under static loading and hyperelasticity under quasi-static loading are provided in the folder [linear elasticity static loading
+](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Linear%20Elasticity%20Static%20loading) and [hyper-elasticity quasi-static loading](https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling/tree/main/Hyper-elasticity%20quasi-static%20loading), respectively.
 
 # Get started  
 Create conda environment and install [FEniCSx](https://fenicsproject.org/download/) (an FEM solver)   
@@ -57,7 +57,7 @@ pip install --upgrade "jax[cuda12]"
 </code></pre>  
 
 Version:
-<pre><code>Python                        3.9.22
+<pre><code>Python             3.9.22
 jax                           0.4.30
 jax-cuda12-pjrt               0.4.30
 jax-cuda12-plugin             0.4.30
