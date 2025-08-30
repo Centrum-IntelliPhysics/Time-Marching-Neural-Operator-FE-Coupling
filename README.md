@@ -1,6 +1,7 @@
 This repository contains codes for the work presented in the paper, '**Time-marching neural operator–FE coupling: AI-accelerated physics modeling**', published in Computer Methods in Applied Mechanics and Engineering. 
 
 Published version: [Link](https://doi.org/10.1016/j.cma.2025.118319)
+
 arXiv version: [Link](https://arxiv.org/abs/2504.11383)
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
