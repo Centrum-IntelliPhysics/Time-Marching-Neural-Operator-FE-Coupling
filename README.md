@@ -1,25 +1,10 @@
-# Table of Content 
--[General information](#general-information)
-
--[Applications](#applications)
-
--[Methods](#Methods)
-
--[Content](#Content)
-
--[Get started](#Get-started)
-
--[Contact](#contact)
-
--[Data Availability](#Data-Availability)
-
-# General information
-This Git repository contains codes for the '**Time-marching neural operator–FE coupling: AI-accelerated physics modeling**' paper published in Computer Methods in Applied Mechanics and Engineering. 
+This repository contains codes for the work presented in the paper, '**Time-marching neural operator–FE coupling: AI-accelerated physics modeling**', published in Computer Methods in Applied Mechanics and Engineering. 
 
 Published version: [Link](https://doi.org/10.1016/j.cma.2025.118319)
 arXiv version: [Link](https://arxiv.org/abs/2504.11383)
 
 Authors: [Wei Wang](https://scholar.google.com/citations?user=t1RXEkgAAAAJ&hl=zh-CN), [Maryam Hakimzadeh](https://scholar.google.com/citations?user=kff1AN0AAAAJ&hl=en), [Haihui Ruan](https://scholar.google.com/citations?user=TXDuvWMAAAAJ&hl=zh-CN), [Somdatta Goswami](https://scholar.google.com/citations?user=GaKrpSkAAAAJ&hl=en&oi=sra)
+
 ## Motivation
 The primary objective is to develop an FE–NO coupling framework using domain decomposition framework. In this framework, a pretrained deep operator network (DeepONet) is employed to efficiently resolve complex, nonlinear subdomains specifically replacing the locations where fine meshes are requires, while the Finite Element Method (FEM) handles the remaining regions. Capturing strongly nonlinear behaviors with FEM alone is computationally expensive. In contrast, DeepONet represent nonlinear mappings that can be pretrained offline, making their evaluation during simulation essentially negligible in cost. In this work, the DeepONet is trained with the physics of the system only (no data is used).
 
