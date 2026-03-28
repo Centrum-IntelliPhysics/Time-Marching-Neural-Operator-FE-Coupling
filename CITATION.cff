@@ -1,0 +1,59 @@
+cff-version: 1.2.0
+title: "Time-marching neural operator-FE coupling: AI-accelerated physics modeling"
+message: "If you use this software, please cite both the software and the associated publication."
+type: software
+
+authors:
+  - family-names: Wang
+    given-names: Wei
+    affiliation: "Johns Hopkins University; The Hong Kong Polytechnic University"
+  - family-names: Hakimzadeh
+    given-names: Maryam
+    affiliation: "Johns Hopkins University"
+  - family-names: Ruan
+    given-names: Haihui
+    affiliation: "The Hong Kong Polytechnic University"
+  - family-names: Goswami
+    given-names: Somdatta
+    affiliation: "Johns Hopkins University"
+
+version: "1.0"
+date-released: 2026-03-28
+
+repository-code: "https://github.com/Centrum-IntelliPhysics/Time-Marching-Neural-Operator-FE-Coupling"
+
+license: Apache-2.0
+
+keywords:
+  - time marching
+  - physics-informed neural operator
+  - hybrid solvers
+  - domain decomposition
+  - finite element methods
+
+abstract: >-
+  The primary objective is to develop an FE-NO coupling framework using domain decomposition framework. 
+  In this framework, a pretrained deep operator network (DeepONet) is employed to efficiently resolve complex, 
+  nonlinear subdomains specifically replacing the locations where fine meshes are requires, 
+  while the Finite Element Method (FEM) handles the remaining regions. Capturing strongly nonlinear behaviors with FEM alone 
+  is computationally expensive. In contrast, DeepONet represent nonlinear mappings that can be pretrained offline, 
+  making their evaluation during simulation essentially negligible in cost. In this work, the DeepONet is trained with 
+  the physics of the system only (no data is used). The coupling of the two solvers is expected to leverage their complementary 
+  strengths, leading to a significant enhancement in computational efficiency and robustness while maintaining solution accuracy.
+
+preferred-citation:
+  type: article
+  title: "Time-marching neural operator-FE coupling: AI-accelerated physics modeling"
+  authors:
+    - family-names: Wang
+      given-names: Wei
+    - family-names: Hakimzadeh
+      given-names: Maryam
+    - family-names: Ruan
+      given-names: Haihui
+    - family-names: Goswami
+      given-names: Somdatta
+  journal: "Computer Methods in Applied Mechanics and Engineering"
+  year: 2025
+  doi: "10.1016/j.cma.2025.118319"
+  url: "https://www.sciencedirect.com/science/article/pii/S0045782525005912"
