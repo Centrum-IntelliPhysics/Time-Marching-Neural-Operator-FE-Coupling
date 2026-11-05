@@ -29,7 +29,7 @@ from dolfinx import plot
 from dolfinx import io
 from pathlib import Path
 import pickle
-from scipy.interpolate import Rbf, interp1d, griddata
+from scipy.interpolate import Rbf, RBFInterpolator, interp1d, griddata
 import math 
 from matplotlib.ticker import ScalarFormatter
 import time
@@ -626,16 +626,24 @@ try:
     U_full_FE = np.loadtxt('u.txt')
     V_full_FE = np.loadtxt('v.txt')
     X_FE, Y_FE = np.loadtxt('X.txt'), np.loadtxt('Y.txt')
+
+
+    coords = np.array([X, Y]).T#[:, 0, :]
+    coords_1 = np.array([X1,Y1]).T#[:, 0, :]
+    coords_fe = np.array([X_FE,Y_FE]).T#[:, 0, :]
+    print(coords.shape)
     # interpolate the ground truth data to the sensor points
-    U_func = Rbf(X_FE, Y_FE, U_full_FE)
-    V_func = Rbf(X_FE, Y_FE, V_full_FE)
+    U_func = RBFInterpolator(coords_fe, U_full_FE.T, neighbors=32) #Neighbors implemented for runtime
+    V_func = RBFInterpolator(coords_fe, V_full_FE.T, neighbors=32)
+    # U_func = Rbf(X_FE, Y_FE, U_full_FE)
+    # V_func = Rbf(X_FE, Y_FE, V_full_FE)
 
     # inner region data
-    U1_FE = U_func(X1, Y1)
-    V1_FE = V_func(X1, Y1)
+    U1_FE = U_func(coords_1)
+    V1_FE = V_func(coords_1)
     # outer region data
-    U_FE = U_func(X, Y)
-    V_FE = V_func(X, Y)    
+    U_FE = U_func(coords)
+    V_FE = V_func(coords)    
     # save the interpolated data
     os.chdir(originalDir_real)
     np.savetxt('U1_FE.txt', U1_FE)

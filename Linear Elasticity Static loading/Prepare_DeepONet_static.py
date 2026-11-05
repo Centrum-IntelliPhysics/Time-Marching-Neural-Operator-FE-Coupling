@@ -23,7 +23,7 @@ import math
 from scipy.interpolate import griddata
 import pickle
 import scipy
-from scipy.interpolate import Rbf, interp1d, griddata
+from scipy.interpolate import RBFInterpolator, interp1d, griddata
 from utils import plot_loss, plot_bc, createFolder, plot_disp, plot_relative_error
 import numpy as npr
 
@@ -469,14 +469,15 @@ if __name__ == "__main__":
     model = PI_DeepONet(branch_layers, trunk_layers, **ela_model)
     
     # Create data set
-    batch_size =  100 
+    batch_size =  100
+    N_training = 2000000
 
     # dataset for boundary conditions and initial conditions
     bcs_dataset = DataGenerator(u_bcs_train, v_bcs_train, h_bcs_train, s_u_train, s_v_train, batch_size)
     res_dataset = DataGenerator(u_res_train, v_res_train,h_res_train, s_res_train, s_res_train, batch_size)
     
     # Train
-    model.train(bcs_dataset, res_dataset, nIter=2000000)
+    model.train(bcs_dataset, res_dataset, nIter=N_training)
     
 
     # region prediction 
@@ -496,8 +497,8 @@ if __name__ == "__main__":
 
     # load the data 
     os.chdir(originalDir + '/'+ 'static_data_ground_truth' + '/')
-    x_c = np.array(npr.loadtxt('xc1_out.txt')).reshape(1,-1)
-    y_c = np.array(npr.loadtxt('yc1_out.txt')).reshape(1,-1)
+    x_c = np.array(npr.loadtxt('x_c1_out.txt')).reshape(1,-1)
+    y_c = np.array(npr.loadtxt('y_c1_out.txt')).reshape(1,-1)
     X1 = np.array(npr.loadtxt('X1.txt')).reshape(1,-1)
     Y1 = np.array(npr.loadtxt('Y1.txt')).reshape(1,-1)
     u = np.array(npr.loadtxt('u.txt')).reshape(1,-1) # ground truth from full sqaure 
@@ -506,14 +507,18 @@ if __name__ == "__main__":
     Y = np.array(npr.loadtxt('Y.txt')).reshape(1,-1)
     os.chdir(origin_real)   
 
-    u2_fun = Rbf(X, Y, u)
-    v2_fun = Rbf(X, Y, v)
-
+    
+    coords = npr.array([X,Y]).T[:, 0, :]
+    u2_fun = RBFInterpolator(coords, u.T, neighbors=32) #Neighbors implemented for runtime
+    v2_fun = RBFInterpolator(coords, v.T, neighbors=32)
+    
     # interpolate the data to the ground truth
-    u2 = u2_fun(X1, Y1).reshape(1,-1)
-    v2 = v2_fun(X1, Y1).reshape(1,-1)
-    u2c = u2_fun(x_c, y_c).reshape(1,-1)
-    v2c = v2_fun(x_c, y_c).reshape(1,-1)
+    coords1 = npr.array([X1, Y1]).T[:, 0, :]
+    coords_c = npr.array([x_c, y_c]).T[:, 0, :]
+    u2 = u2_fun(coords1).reshape(1,-1)
+    v2 = v2_fun(coords1).reshape(1,-1)
+    u2c = u2_fun(coords_c).reshape(1,-1)
+    v2c = v2_fun(coords_c).reshape(1,-1)
 
     npr.savetxt('u2.txt', u2)
     npr.savetxt('v2.txt', v2)
